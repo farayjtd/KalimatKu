@@ -9,7 +9,7 @@
     box-sizing: border-box;
 }
 
-/* ── LIGHT THEME (default) ── */
+/* ── LIGHT THEME ── */
 :root,
 [data-theme="light"] {
     --bg-primary: #FFFFFF;
@@ -89,6 +89,7 @@ body {
     color: var(--text-primary);
     background: var(--bg-primary);
     overflow-x: hidden;
+    max-width: 100vw;
     line-height: 1.6;
     transition: background 0.4s ease, color 0.4s ease;
 }
@@ -108,7 +109,7 @@ body {
 }
 
 /* ══════════════════════════════════════
-   CUSTOM CURSOR — dot only
+   CUSTOM CURSOR
 ══════════════════════════════════════ */
 .cursor-dot {
     width: 8px;
@@ -123,11 +124,33 @@ body {
     transition: transform 0.08s ease;
 }
 
-/* Ring dihapus total */
 .cursor-ring {
     display: none !important;
 }
 
+/* ══════════════════════════════════════
+   SPARKLE TRAIL
+══════════════════════════════════════ */
+.sparkle {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9997;
+    transform: translate(-50%, -50%);
+    will-change: transform, opacity;
+    contain: strict;
+}
+
+@keyframes sparkle-fly {
+    0% {
+        transform: translate(-50%, -50%) translate(0, 0) scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) translate(var(--tx), var(--ty)) scale(0);
+        opacity: 0;
+    }
+}
 
 /* ══════════════════════════════════════
    CLICK RIPPLE
@@ -192,7 +215,6 @@ body {
 .section-title em {
     font-style: normal;
     color: var(--blue);
-    position: relative;
 }
 
 /* ── ANIMATIONS ── */
@@ -332,115 +354,6 @@ body {
 }
 
 /* ══════════════════════════════════════
-   NAV PILL (sliding active indicator)
-══════════════════════════════════════ */
-#navPill {
-    position: absolute;
-    height: 34px;
-    border-radius: 50px;
-    background: var(--blue-glow);
-    border: 1px solid var(--border-hover);
-    pointer-events: none;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 0;
-    opacity: 0;
-    transition: left 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-        width 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-        opacity 0.3s ease;
-}
-
-/* ══════════════════════════════════════
-   SECTION TOAST
-══════════════════════════════════════ */
-#sectionToast {
-    position: fixed;
-    top: 78px;
-    left: 50%;
-    transform: translateX(-50%) translateY(-6px);
-    background: var(--bg-card);
-    border: 1px solid var(--border-hover);
-    border-radius: 50px;
-    padding: 0.3rem 1.1rem;
-    font-size: 0.72rem;
-    font-weight: 700;
-    color: var(--blue);
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    opacity: 0;
-    pointer-events: none;
-    z-index: 999;
-    transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-    backdrop-filter: blur(12px);
-    box-shadow: var(--shadow-sm), 0 0 20px var(--blue-glow);
-    white-space: nowrap;
-}
-
-#sectionToast.visible {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-}
-
-/* ══════════════════════════════════════
-   NAV LINK ACTIVE STATE
-══════════════════════════════════════ */
-.nav-links {
-    position: relative;
-    /* penting untuk pill positioning */
-}
-
-.nav-links a {
-    position: relative;
-    z-index: 1;
-    border-radius: 50px;
-    padding: 0.45rem 0.9rem;
-    transition: color 0.25s;
-}
-
-.nav-links a.active {
-    color: var(--blue);
-    font-weight: 700;
-}
-
-/* Dot kecil di bawah link aktif */
-.nav-links a::after {
-    content: '';
-    position: absolute;
-    bottom: 2px;
-    left: 50%;
-    transform: translateX(-50%) scale(0);
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: var(--blue);
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.nav-links a.active::after {
-    transform: translateX(-50%) scale(1);
-}
-
-/* Jangan tampilkan dot di CTA button */
-.nav-cta::after {
-    display: none !important;
-}
-
-@media (max-width: 768px) {
-    #navPill {
-        display: none;
-    }
-
-    #sectionToast {
-        display: none;
-    }
-
-    .nav-links a.active {
-        background: var(--blue-glow);
-        border: 1px solid var(--border-hover);
-    }
-}
-
-/* ══════════════════════════════════════
    NAVBAR
 ══════════════════════════════════════ */
 nav {
@@ -480,37 +393,13 @@ nav.scrolled {
     color: var(--blue);
 }
 
-/* ── NAV LINKS WRAPPER (relative untuk slider pill) ── */
+/* ── NAV LINKS ── */
 .nav-links {
     display: flex;
     align-items: center;
     gap: 0.25rem;
     list-style: none;
     position: relative;
-}
-
-/* Sliding pill background */
-.nav-links::before {
-    content: '';
-    position: absolute;
-    height: 34px;
-    border-radius: 50px;
-    background: var(--blue-glow);
-    border: 1px solid var(--border-hover);
-    transition: left 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-        width 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-        opacity 0.3s;
-    pointer-events: none;
-    opacity: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 0;
-    width: 0;
-    z-index: 0;
-}
-
-.nav-links.pill-ready::before {
-    opacity: 1;
 }
 
 .nav-links li {
@@ -531,9 +420,19 @@ nav.scrolled {
     transition: color 0.25s;
     position: relative;
     white-space: nowrap;
+    z-index: 1;
 }
 
-/* Active dot indicator */
+.nav-links a:hover {
+    color: var(--text-primary);
+}
+
+.nav-links a.active {
+    color: var(--blue);
+    font-weight: 700;
+}
+
+/* Active dot bawah link */
 .nav-links a::after {
     content: '';
     position: absolute;
@@ -547,25 +446,32 @@ nav.scrolled {
     transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.nav-links a.active {
-    color: var(--blue);
-    font-weight: 700;
-}
-
 .nav-links a.active::after {
     transform: translateX(-50%) scale(1);
 }
 
-.nav-links a:hover {
-    color: var(--text-primary);
+.nav-cta::after {
+    display: none !important;
 }
 
-/* Section name badge saat hover */
-.nav-links a .nav-section-hint {
-    display: none;
+/* ── SLIDING PILL ── */
+#navPill {
+    position: absolute;
+    height: 34px;
+    border-radius: 50px;
+    background: var(--blue-glow);
+    border: 1px solid var(--border-hover);
+    pointer-events: none;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 0;
+    opacity: 0;
+    transition: left 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        width 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 0.3s ease;
 }
 
-/* CTA button */
+/* ── CTA BUTTON ── */
 .nav-cta {
     background: var(--blue) !important;
     color: #fff !important;
@@ -582,21 +488,17 @@ nav.scrolled {
     box-shadow: 0 6px 20px var(--blue-glow) !important;
 }
 
-.nav-cta::after {
-    display: none !important;
-}
-
-/* ── SECTION LABEL TOAST (nama section aktif) ── */
+/* ── SECTION TOAST ── */
 #sectionToast {
     position: fixed;
     top: 78px;
     left: 50%;
-    transform: translateX(-50%) translateY(-8px);
+    transform: translateX(-50%) translateY(-6px);
     background: var(--bg-card);
     border: 1px solid var(--border-hover);
     border-radius: 50px;
-    padding: 0.3rem 1rem;
-    font-size: 0.75rem;
+    padding: 0.3rem 1.1rem;
+    font-size: 0.72rem;
     font-weight: 700;
     color: var(--blue);
     letter-spacing: 1.5px;
@@ -622,7 +524,6 @@ nav.scrolled {
     gap: 1rem;
 }
 
-/* THEME TOGGLE */
 .theme-toggle {
     width: 56px;
     height: 28px;
@@ -688,45 +589,6 @@ nav.scrolled {
 
 .hamburger.open span:nth-child(3) {
     transform: translateY(-7px) rotate(-45deg);
-}
-
-/* ── MOBILE NAV ── */
-@media (max-width: 768px) {
-    .nav-links {
-        display: none;
-        position: fixed;
-        top: 70px;
-        left: 0;
-        right: 0;
-        background: var(--bg-nav);
-        backdrop-filter: blur(20px);
-        flex-direction: column;
-        padding: 2rem;
-        gap: 0.5rem;
-        border-bottom: 1px solid var(--border);
-        box-shadow: var(--shadow-md);
-    }
-
-    .nav-links.open {
-        display: flex;
-    }
-
-    .nav-links::before {
-        display: none;
-    }
-
-    .nav-links a.active {
-        background: var(--blue-glow);
-        border: 1px solid var(--border-hover);
-    }
-
-    .hamburger {
-        display: flex;
-    }
-
-    #sectionToast {
-        display: none;
-    }
 }
 
 /* ══════════════════════════════════════
@@ -855,7 +717,6 @@ nav.scrolled {
     letter-spacing: -0.5px;
 }
 
-/* Glitch effect */
 .glitch {
     position: relative;
     color: var(--blue);
@@ -949,7 +810,6 @@ nav.scrolled {
     font-weight: 500;
 }
 
-/* ── MOCKUP ── */
 .hero-mockup {
     position: relative;
 }
@@ -973,7 +833,7 @@ nav.scrolled {
 .mockup-card {
     background: var(--bg-card);
     border: 1px solid var(--border);
-    border-radius: var(--radius-md, 12px);
+    border-radius: 12px;
     overflow: hidden;
     position: relative;
     z-index: 1;
@@ -1091,7 +951,6 @@ mark.good {
     white-space: nowrap;
 }
 
-/* ── SCROLL HINT ── */
 .hero-scroll-hint {
     position: absolute;
     bottom: 2rem;
@@ -1217,9 +1076,7 @@ mark.good {
     border-radius: 20px;
     padding: 2rem;
     text-align: left;
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-        box-shadow 0.4s ease,
-        border-color 0.3s;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s, border-color 0.3s;
     position: relative;
     overflow: hidden;
     cursor: default;
@@ -1308,9 +1165,7 @@ mark.good {
     text-align: left;
     position: relative;
     overflow: hidden;
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-        box-shadow 0.4s,
-        border-color 0.3s;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s, border-color 0.3s;
     cursor: default;
     transform-style: preserve-3d;
 }
@@ -1397,9 +1252,7 @@ mark.good {
     border-radius: 20px;
     padding: 2.5rem 2rem;
     position: relative;
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-        box-shadow 0.4s,
-        border-color 0.3s;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s, border-color 0.3s;
 }
 
 .step-card:hover {
@@ -1498,9 +1351,7 @@ mark.good {
     border: 1px solid var(--border);
     border-radius: 20px;
     padding: 2rem 1rem;
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-        box-shadow 0.4s,
-        border-color 0.3s;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s, border-color 0.3s;
 }
 
 .usecase-card:hover {
@@ -1556,9 +1407,7 @@ mark.good {
     text-align: left;
     position: relative;
     overflow: hidden;
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-        box-shadow 0.4s,
-        border-color 0.3s;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s, border-color 0.3s;
     transform-style: preserve-3d;
 }
 
@@ -1637,9 +1486,7 @@ mark.good {
     border-radius: 24px;
     padding: 2.5rem 2rem;
     position: relative;
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-        box-shadow 0.4s,
-        border-color 0.3s;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s, border-color 0.3s;
 }
 
 .pricing-card:hover {
@@ -1652,7 +1499,6 @@ mark.good {
     border-color: var(--blue);
     transform: scale(1.04);
     box-shadow: var(--shadow-lg), 0 0 60px var(--blue-glow);
-    background: var(--bg-card);
 }
 
 .pricing-card.featured:hover {
@@ -2005,13 +1851,26 @@ footer {
         backdrop-filter: blur(20px);
         flex-direction: column;
         padding: 2rem;
-        gap: 1.25rem;
+        gap: 0.5rem;
         border-bottom: 1px solid var(--border);
         box-shadow: var(--shadow-md);
     }
 
     .nav-links.open {
         display: flex;
+    }
+
+    .nav-links a.active {
+        background: var(--blue-glow);
+        border: 1px solid var(--border-hover);
+    }
+
+    #navPill {
+        display: none;
+    }
+
+    #sectionToast {
+        display: none;
     }
 
     .hamburger {

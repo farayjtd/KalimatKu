@@ -47,6 +47,10 @@ function spawnSparkle(x, y) {
     if (now - lastSparkleTime < 30) return;
     lastSparkleTime = now;
 
+    // Jangan spawn di dekat tepi layar
+    const margin = 20;
+    if (x < margin || y < margin || x > window.innerWidth - margin || y > window.innerHeight - margin) return;
+
     const theme = html.getAttribute('data-theme') || 'light';
     const colors = sparkleColors[theme];
     const count = Math.floor(Math.random() * 2) + 1;
@@ -268,7 +272,7 @@ const sections = Object.keys(sectionLabels)
 
 const navAnchors = navLinksList.querySelectorAll('a[href^="#"]');
 
-// Create sliding pill element
+// Sliding pill element
 const navPill = document.createElement('div');
 navPill.id = 'navPill';
 navLinksList.appendChild(navPill);
@@ -278,7 +282,6 @@ function updatePill(activeLink) {
         navPill.style.opacity = '0';
         return;
     }
-    // Skip the CTA button
     if (activeLink.classList.contains('nav-cta')) {
         navPill.style.opacity = '0';
         return;
@@ -294,14 +297,16 @@ let toastTimer;
 let lastActiveId = '';
 
 function onScroll() {
+    // Progress bar
     const scrollTop = window.scrollY;
     const docHeight = document.documentElement.scrollHeight - window.innerHeight;
     const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
     progressBar.style.width = pct + '%';
 
+    // Navbar shadow
     navbar.classList.toggle('scrolled', scrollTop > 20);
 
-    // Detect current section
+    // Detect active section
     let currentId = 'home';
     sections.forEach(sec => {
         if (sec.getBoundingClientRect().top <= 110) currentId = sec.id;
@@ -310,7 +315,7 @@ function onScroll() {
     if (currentId === lastActiveId) return;
     lastActiveId = currentId;
 
-    // Update active link styles + pill
+    // Update link states + pill
     navAnchors.forEach(a => {
         const href = a.getAttribute('href').replace('#', '');
         const isActive = href === currentId;
@@ -318,7 +323,7 @@ function onScroll() {
         if (isActive) updatePill(a);
     });
 
-    // Show section toast
+    // Toast
     if (sectionLabels[currentId]) {
         sectionToast.textContent = '📍 ' + sectionLabels[currentId];
         sectionToast.classList.add('visible');
