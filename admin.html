@@ -1,0 +1,1968 @@
+<!doctype html>
+<html lang="id" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KalimatKu — Admin Panel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --bg: #f7f9fc;
+        --bg2: #ffffff;
+        --bg3: #eef2f7;
+        --text: #1a1a2e;
+        --text2: #3d4f63;
+        --muted: #8fa3be;
+        --border: #d9e2ee;
+        --blue: #2f80ed;
+        --navy: #1e3a5f;
+        --gold: #f5a623;
+        --green: #22c55e;
+        --red: #ef4444;
+        --shadow: 0 4px 20px rgba(30, 58, 95, 0.1);
+        --radius: 12px;
+      }
+
+      [data-theme="dark"] {
+        --bg: #0a0f1e;
+        --bg2: #111827;
+        --bg3: #1a2238;
+        --text: #e8eefa;
+        --text2: #94a8c4;
+        --muted: #4a6080;
+        --border: #1e2d45;
+        --blue: #5ba3f5;
+        --navy: #4a8fe8;
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      }
+
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+        transition:
+          background 0.3s,
+          color 0.3s;
+      }
+
+      /* ── LOGIN SCREEN ── */
+      #loginScreen {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, var(--bg) 0%, var(--bg3) 100%);
+      }
+
+      .login-card {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        padding: 3rem 2.5rem;
+        width: 100%;
+        max-width: 420px;
+        box-shadow: var(--shadow);
+        text-align: center;
+      }
+
+      .login-logo {
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--text);
+        margin-bottom: 0.25rem;
+      }
+
+      .login-logo span {
+        color: var(--blue);
+      }
+
+      .login-sub {
+        font-size: 0.85rem;
+        color: var(--muted);
+        margin-bottom: 2rem;
+      }
+
+      .login-card h2 {
+        font-size: 1.4rem;
+        font-weight: 700;
+        margin-bottom: 1.75rem;
+        color: var(--text);
+      }
+
+      .form-group {
+        text-align: left;
+        margin-bottom: 1.25rem;
+      }
+
+      .form-group label {
+        display: block;
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: var(--text2);
+        margin-bottom: 0.4rem;
+        letter-spacing: 0.5px;
+      }
+
+      .form-group input,
+      .form-group textarea,
+      .form-group select {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        background: var(--bg3);
+        border: 1.5px solid var(--border);
+        border-radius: var(--radius);
+        font-family: inherit;
+        font-size: 0.9rem;
+        color: var(--text);
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s;
+        outline: none;
+      }
+
+      .form-group input:focus,
+      .form-group textarea:focus {
+        border-color: var(--blue);
+        box-shadow: 0 0 0 3px rgba(47, 128, 237, 0.12);
+      }
+
+      .form-group textarea {
+        resize: vertical;
+        min-height: 80px;
+        line-height: 1.6;
+      }
+
+      .btn-login {
+        width: 100%;
+        padding: 0.9rem;
+        background: var(--blue);
+        color: #fff;
+        border: none;
+        border-radius: 50px;
+        font-family: inherit;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s;
+        margin-top: 0.5rem;
+      }
+
+      .btn-login:hover {
+        background: var(--navy);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(47, 128, 237, 0.3);
+      }
+
+      .login-error {
+        color: var(--red);
+        font-size: 0.82rem;
+        margin-top: 0.75rem;
+        display: none;
+      }
+
+      /* ── ADMIN LAYOUT ── */
+      #adminScreen {
+        display: none;
+      }
+
+      .admin-layout {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      /* SIDEBAR */
+      .sidebar {
+        width: 260px;
+        background: var(--bg2);
+        border-right: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 100;
+        transition: transform 0.3s;
+        overflow-y: auto;
+      }
+
+      .sidebar-header {
+        padding: 1.5rem 1.5rem 1rem;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .sidebar-logo {
+        font-size: 1.3rem;
+        font-weight: 800;
+        color: var(--text);
+        text-decoration: none;
+      }
+
+      .sidebar-logo span {
+        color: var(--blue);
+      }
+
+      .sidebar-badge {
+        display: inline-block;
+        font-size: 0.65rem;
+        font-weight: 700;
+        background: var(--blue);
+        color: #fff;
+        padding: 0.15rem 0.5rem;
+        border-radius: 50px;
+        margin-left: 0.4rem;
+        vertical-align: middle;
+      }
+
+      .sidebar-nav {
+        padding: 1rem 0.75rem;
+        flex: 1;
+      }
+
+      .nav-section-title {
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--muted);
+        padding: 0.5rem 0.75rem;
+        margin-top: 0.5rem;
+      }
+
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.7rem 0.75rem;
+        border-radius: 10px;
+        font-size: 0.88rem;
+        font-weight: 500;
+        color: var(--text2);
+        cursor: pointer;
+        transition: all 0.2s;
+        border: none;
+        background: none;
+        width: 100%;
+        text-align: left;
+      }
+
+      .nav-item:hover {
+        background: var(--bg3);
+        color: var(--text);
+      }
+
+      .nav-item.active {
+        background: rgba(47, 128, 237, 0.1);
+        color: var(--blue);
+        font-weight: 600;
+      }
+
+      .nav-icon {
+        font-size: 1.1rem;
+        width: 20px;
+        text-align: center;
+      }
+
+      .sidebar-footer {
+        padding: 1rem 0.75rem;
+        border-top: 1px solid var(--border);
+      }
+
+      /* MAIN CONTENT */
+      .admin-main {
+        margin-left: 260px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      .admin-topbar {
+        background: var(--bg2);
+        border-bottom: 1px solid var(--border);
+        padding: 1rem 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: sticky;
+        top: 0;
+        z-index: 50;
+      }
+
+      .topbar-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--text);
+      }
+
+      .topbar-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .btn-sm {
+        padding: 0.5rem 1rem;
+        border-radius: 50px;
+        font-family: inherit;
+        font-size: 0.82rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        border: 1.5px solid var(--border);
+        background: none;
+        color: var(--text2);
+      }
+
+      .btn-sm:hover {
+        background: var(--bg3);
+        color: var(--text);
+      }
+
+      .btn-sm.primary {
+        background: var(--blue);
+        color: #fff;
+        border-color: var(--blue);
+      }
+
+      .btn-sm.primary:hover {
+        background: var(--navy);
+        border-color: var(--navy);
+      }
+
+      .btn-sm.success {
+        background: var(--green);
+        color: #fff;
+        border-color: var(--green);
+      }
+
+      .btn-sm.danger {
+        background: var(--red);
+        color: #fff;
+        border-color: var(--red);
+      }
+
+      /* PANEL CONTENT */
+      .admin-content {
+        padding: 2rem;
+        flex: 1;
+      }
+
+      .panel {
+        display: none;
+      }
+      .panel.active {
+        display: block;
+      }
+
+      .panel-title {
+        font-size: 1.4rem;
+        font-weight: 800;
+        color: var(--text);
+        margin-bottom: 0.4rem;
+      }
+
+      .panel-desc {
+        font-size: 0.88rem;
+        color: var(--muted);
+        margin-bottom: 2rem;
+      }
+
+      .card {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 1.75rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .card-title {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--text);
+        margin-bottom: 1.25rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .card-title .tag {
+        font-size: 0.65rem;
+        background: var(--blue);
+        color: #fff;
+        padding: 0.15rem 0.5rem;
+        border-radius: 50px;
+      }
+
+      .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+      .grid-3 {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 1rem;
+      }
+
+      /* REPEATER (fitur, testimoni, faq) */
+      .repeater-item {
+        background: var(--bg3);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 1.25rem;
+        margin-bottom: 1rem;
+        position: relative;
+      }
+
+      .repeater-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+      }
+
+      .repeater-label {
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: var(--muted);
+      }
+
+      .btn-remove {
+        background: none;
+        border: none;
+        color: var(--red);
+        cursor: pointer;
+        font-size: 1.1rem;
+        padding: 0.2rem;
+        transition: transform 0.2s;
+      }
+
+      .btn-remove:hover {
+        transform: scale(1.2);
+      }
+
+      .btn-add {
+        width: 100%;
+        padding: 0.75rem;
+        background: none;
+        border: 1.5px dashed var(--border);
+        border-radius: var(--radius);
+        font-family: inherit;
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: var(--muted);
+        cursor: pointer;
+        transition: all 0.2s;
+        margin-top: 0.5rem;
+      }
+
+      .btn-add:hover {
+        border-color: var(--blue);
+        color: var(--blue);
+        background: rgba(47, 128, 237, 0.05);
+      }
+
+      /* COLOR PICKER */
+      .color-row {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .color-preview {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        border: 2px solid var(--border);
+        flex-shrink: 0;
+      }
+
+      input[type="color"] {
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        background: none;
+      }
+
+      /* TOAST */
+      .toast {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        background: var(--green);
+        color: #fff;
+        padding: 0.85rem 1.5rem;
+        border-radius: 50px;
+        font-size: 0.88rem;
+        font-weight: 600;
+        z-index: 9999;
+        transform: translateY(100px);
+        opacity: 0;
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        box-shadow: 0 8px 30px rgba(34, 197, 94, 0.3);
+      }
+
+      .toast.show {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      .toast.error {
+        background: var(--red);
+        box-shadow: 0 8px 30px rgba(239, 68, 68, 0.3);
+      }
+
+      /* THEME TOGGLE */
+      .theme-btn {
+        background: var(--bg3);
+        border: 1.5px solid var(--border);
+        border-radius: 50px;
+        padding: 0.4rem 0.9rem;
+        font-family: inherit;
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: var(--text2);
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .theme-btn:hover {
+        background: var(--bg);
+      }
+
+      /* HAMBURGER (mobile) */
+      .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--text);
+        font-size: 1.4rem;
+      }
+
+      .sidebar-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 99;
+      }
+
+      /* DIVIDER */
+      .divider {
+        height: 1px;
+        background: var(--border);
+        margin: 1.5rem 0;
+      }
+
+      /* HINT */
+      .hint {
+        font-size: 0.78rem;
+        color: var(--muted);
+        margin-top: 0.35rem;
+      }
+
+      /* PREVIEW BUTTON */
+      .preview-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-size: 0.82rem;
+        color: var(--blue);
+        text-decoration: none;
+        font-weight: 600;
+        padding: 0.4rem 0.9rem;
+        border: 1.5px solid var(--blue);
+        border-radius: 50px;
+        transition: all 0.2s;
+      }
+
+      .preview-link:hover {
+        background: var(--blue);
+        color: #fff;
+      }
+
+      /* RESPONSIVE */
+      @media (max-width: 768px) {
+        .sidebar {
+          transform: translateX(-100%);
+        }
+        .sidebar.open {
+          transform: translateX(0);
+        }
+        .sidebar-overlay.open {
+          display: block;
+        }
+        .admin-main {
+          margin-left: 0;
+        }
+        .menu-toggle {
+          display: block;
+        }
+        .grid-2,
+        .grid-3 {
+          grid-template-columns: 1fr;
+        }
+        .admin-content {
+          padding: 1.25rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <!-- ══════════════ LOGIN SCREEN ══════════════ -->
+    <div id="loginScreen">
+      <div class="login-card">
+        <div class="login-logo">Kalimat<span>Ku</span></div>
+        <div class="login-sub">Admin Panel</div>
+        <h2>Masuk ke Dashboard</h2>
+        <div class="form-group">
+          <label>Username</label>
+          <input
+            type="text"
+            id="loginUser"
+            placeholder="Masukkan username"
+            autocomplete="username"
+          />
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input
+            type="password"
+            id="loginPass"
+            placeholder="Masukkan password"
+            autocomplete="current-password"
+          />
+        </div>
+        <button class="btn-login" onclick="doLogin()">Masuk →</button>
+        <p class="login-error" id="loginError">
+          ❌ Username atau password salah.
+        </p>
+        <p
+          style="font-size: 0.75rem; color: var(--muted); margin-top: 1.5rem"
+        ></p>
+      </div>
+    </div>
+
+    <!-- ══════════════ ADMIN SCREEN ══════════════ -->
+    <div id="adminScreen">
+      <div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
+      <div class="admin-layout">
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="sidebar">
+          <div class="sidebar-header">
+            <div class="sidebar-logo">
+              Kalimat<span>Ku</span><span class="sidebar-badge">Admin</span>
+            </div>
+          </div>
+          <nav class="sidebar-nav">
+            <div class="nav-section-title">Dashboard</div>
+            <button class="nav-item active" onclick="showPanel('dashboard')">
+              <span class="nav-icon">🏠</span> Dashboard
+            </button>
+
+            <div class="nav-section-title">Konten</div>
+            <button class="nav-item" onclick="showPanel('hero')">
+              <span class="nav-icon">🦸</span> Hero Section
+            </button>
+            <button class="nav-item" onclick="showPanel('stats')">
+              <span class="nav-icon">📊</span> Statistik
+            </button>
+            <button class="nav-item" onclick="showPanel('pain')">
+              <span class="nav-icon">⚠️</span> Pain Point
+            </button>
+            <button class="nav-item" onclick="showPanel('features')">
+              <span class="nav-icon">✨</span> Fitur
+            </button>
+            <button class="nav-item" onclick="showPanel('steps')">
+              <span class="nav-icon">👣</span> Cara Kerja
+            </button>
+            <button class="nav-item" onclick="showPanel('testimonials')">
+              <span class="nav-icon">💬</span> Testimoni
+            </button>
+            <button class="nav-item" onclick="showPanel('pricing')">
+              <span class="nav-icon">💰</span> Harga
+            </button>
+            <button class="nav-item" onclick="showPanel('cta')">
+              <span class="nav-icon">🎯</span> CTA & Footer
+            </button>
+            <button class="nav-item" onclick="showPanel('faq')">
+              <span class="nav-icon">❓</span> FAQ
+            </button>
+
+            <div class="nav-section-title">Tampilan</div>
+            <button class="nav-item" onclick="showPanel('colors')">
+              <span class="nav-icon">🎨</span> Warna & Tema
+            </button>
+
+            <div class="nav-section-title">Akun</div>
+            <button class="nav-item" onclick="showPanel('account')">
+              <span class="nav-icon">🔐</span> Ubah Password
+            </button>
+          </nav>
+          <div class="sidebar-footer">
+            <button
+              class="nav-item"
+              onclick="doLogout()"
+              style="color: var(--red)"
+            >
+              <span class="nav-icon">🚪</span> Keluar
+            </button>
+          </div>
+        </aside>
+
+        <!-- MAIN -->
+        <div class="admin-main">
+          <div class="admin-topbar">
+            <div style="display: flex; align-items: center; gap: 1rem">
+              <button class="menu-toggle" onclick="openSidebar()">☰</button>
+              <span class="topbar-title" id="topbarTitle">Dashboard</span>
+            </div>
+            <div class="topbar-actions">
+              <button class="theme-btn" onclick="toggleTheme()">🌙 / ☀️</button>
+              <a href="index.html" target="_blank" class="preview-link"
+                >👁️ Preview</a
+              >
+              <button class="btn-sm primary" onclick="saveAll()">
+                💾 Simpan Semua
+              </button>
+            </div>
+          </div>
+
+          <div class="admin-content">
+            <!-- ── DASHBOARD ── -->
+            <div class="panel active" id="panel-dashboard">
+              <div class="panel-title">Selamat Datang! 👋</div>
+              <div class="panel-desc">
+                Kelola semua konten landing page KalimatKu dari sini.
+              </div>
+              <div class="grid-3" style="margin-bottom: 1.5rem">
+                <div class="card" style="text-align: center">
+                  <div style="font-size: 2rem; margin-bottom: 0.5rem">🦸</div>
+                  <div style="font-weight: 700; color: var(--text)">
+                    Hero Section
+                  </div>
+                  <div
+                    style="
+                      font-size: 0.8rem;
+                      color: var(--muted);
+                      margin-top: 0.25rem;
+                    "
+                  >
+                    Judul, subtitle, CTA
+                  </div>
+                </div>
+                <div class="card" style="text-align: center">
+                  <div style="font-size: 2rem; margin-bottom: 0.5rem">✨</div>
+                  <div style="font-weight: 700; color: var(--text)">
+                    6 Fitur
+                  </div>
+                  <div
+                    style="
+                      font-size: 0.8rem;
+                      color: var(--muted);
+                      margin-top: 0.25rem;
+                    "
+                  >
+                    Dapat ditambah/hapus
+                  </div>
+                </div>
+                <div class="card" style="text-align: center">
+                  <div style="font-size: 2rem; margin-bottom: 0.5rem">💬</div>
+                  <div style="font-weight: 700; color: var(--text)">
+                    3 Testimoni
+                  </div>
+                  <div
+                    style="
+                      font-size: 0.8rem;
+                      color: var(--muted);
+                      margin-top: 0.25rem;
+                    "
+                  >
+                    Dapat ditambah/hapus
+                  </div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-title">🚀 Cara Menggunakan Admin Panel</div>
+                <ol
+                  style="
+                    padding-left: 1.25rem;
+                    font-size: 0.88rem;
+                    color: var(--text2);
+                    line-height: 2;
+                  "
+                >
+                  <li>
+                    Pilih section yang ingin diedit dari menu sidebar kiri
+                  </li>
+                  <li>Ubah konten sesuai kebutuhan</li>
+                  <li>
+                    Klik <strong>"Simpan Semua"</strong> di pojok kanan atas
+                  </li>
+                  <li>
+                    Klik <strong>"Preview"</strong> untuk melihat hasilnya di
+                    landing page
+                  </li>
+                  <li>
+                    Perubahan tersimpan otomatis di browser (localStorage)
+                  </li>
+                </ol>
+              </div>
+            </div>
+
+            <!-- ── HERO ── -->
+            <div class="panel" id="panel-hero">
+              <div class="panel-title">🦸 Hero Section</div>
+              <div class="panel-desc">
+                Edit bagian paling atas landing page.
+              </div>
+              <div class="card">
+                <div class="card-title">Badge & Judul</div>
+                <div class="form-group">
+                  <label>Badge Text</label
+                  ><input
+                    type="text"
+                    id="f_heroBadge"
+                    placeholder="Platform Bahasa Indonesia #1"
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Judul Utama (baris 1-2)</label
+                  ><input
+                    type="text"
+                    id="f_heroTitle"
+                    placeholder="Tulisanmu Sudah Panjang, Tapi Masih Terasa"
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Judul Aksen (teks glitch biru)</label
+                  ><input
+                    type="text"
+                    id="f_heroGlitch"
+                    placeholder="Kurang Profesional?"
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Subtitle / Deskripsi</label
+                  ><textarea
+                    id="f_heroSub"
+                    placeholder="KalimatKu memperbaiki..."
+                  ></textarea>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-title">Tombol & Catatan</div>
+                <div class="grid-2">
+                  <div class="form-group">
+                    <label>Teks Tombol Utama</label
+                    ><input
+                      type="text"
+                      id="f_heroCta1"
+                      placeholder="Sempurnakan Teks Sekarang"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label>Teks Tombol Sekunder</label
+                    ><input
+                      type="text"
+                      id="f_heroCta2"
+                      placeholder="Lihat Cara Kerjanya"
+                    />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Catatan kecil di bawah tombol</label
+                  ><input
+                    type="text"
+                    id="f_heroNote"
+                    placeholder="✓ Gratis · ✓ Tanpa daftar · ✓ Hasil instan"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- ── STATS ── -->
+            <div class="panel" id="panel-stats">
+              <div class="panel-title">📊 Statistik</div>
+              <div class="panel-desc">
+                Edit 4 angka statistik yang tampil di bawah hero.
+              </div>
+              <div class="card">
+                <div class="grid-2">
+                  <div>
+                    <div class="card-title">Statistik 1</div>
+                    <div class="form-group">
+                      <label>Angka (target)</label
+                      ><input
+                        type="number"
+                        id="f_stat1Num"
+                        placeholder="10000"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label>Suffix (contoh: +, /5, dtk)</label
+                      ><input type="text" id="f_stat1Suf" placeholder="+" />
+                    </div>
+                    <div class="form-group">
+                      <label>Label</label
+                      ><input
+                        type="text"
+                        id="f_stat1Lab"
+                        placeholder="Pengguna Aktif"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <div class="card-title">Statistik 2</div>
+                    <div class="form-group">
+                      <label>Angka (target)</label
+                      ><input
+                        type="number"
+                        id="f_stat2Num"
+                        placeholder="500000"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label>Suffix</label
+                      ><input type="text" id="f_stat2Suf" placeholder="+" />
+                    </div>
+                    <div class="form-group">
+                      <label>Label</label
+                      ><input
+                        type="text"
+                        id="f_stat2Lab"
+                        placeholder="Dokumen Diperbaiki"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <div class="card-title">Statistik 3</div>
+                    <div class="form-group">
+                      <label>Angka (target)</label
+                      ><input type="number" id="f_stat3Num" placeholder="49" />
+                    </div>
+                    <div class="form-group">
+                      <label>Suffix</label
+                      ><input type="text" id="f_stat3Suf" placeholder="/5" />
+                    </div>
+                    <div class="form-group">
+                      <label>Label</label
+                      ><input
+                        type="text"
+                        id="f_stat3Lab"
+                        placeholder="Rating Kepuasan"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <div class="card-title">Statistik 4</div>
+                    <div class="form-group">
+                      <label>Angka (target)</label
+                      ><input type="number" id="f_stat4Num" placeholder="3" />
+                    </div>
+                    <div class="form-group">
+                      <label>Suffix</label
+                      ><input type="text" id="f_stat4Suf" placeholder=" dtk" />
+                    </div>
+                    <div class="form-group">
+                      <label>Label</label
+                      ><input
+                        type="text"
+                        id="f_stat4Lab"
+                        placeholder="Rata-rata Proses"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ── PAIN POINT ── -->
+            <div class="panel" id="panel-pain">
+              <div class="panel-title">⚠️ Pain Point</div>
+              <div class="panel-desc">
+                Edit section masalah yang dialami pengguna.
+              </div>
+              <div class="card">
+                <div class="card-title">Judul Section</div>
+                <div class="form-group">
+                  <label>Judul</label
+                  ><textarea
+                    id="f_painTitle"
+                    placeholder="Kesalahan Kecil dalam Bahasa..."
+                  ></textarea>
+                </div>
+                <div class="form-group">
+                  <label>Kutipan (blockquote)</label
+                  ><textarea
+                    id="f_painQuote"
+                    placeholder="Bayangkan proposal bisnis..."
+                  ></textarea>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-title">Kartu Masalah</div>
+                <div class="grid-3">
+                  <div>
+                    <div class="form-group">
+                      <label>Judul 1</label
+                      ><input type="text" id="f_pain1Title" />
+                    </div>
+                    <div class="form-group">
+                      <label>Deskripsi 1</label
+                      ><textarea id="f_pain1Desc"></textarea>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="form-group">
+                      <label>Judul 2</label
+                      ><input type="text" id="f_pain2Title" />
+                    </div>
+                    <div class="form-group">
+                      <label>Deskripsi 2</label
+                      ><textarea id="f_pain2Desc"></textarea>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="form-group">
+                      <label>Judul 3</label
+                      ><input type="text" id="f_pain3Title" />
+                    </div>
+                    <div class="form-group">
+                      <label>Deskripsi 3</label
+                      ><textarea id="f_pain3Desc"></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ── FEATURES ── -->
+            <div class="panel" id="panel-features">
+              <div class="panel-title">✨ Fitur Unggulan</div>
+              <div class="panel-desc">
+                Tambah, edit, atau hapus fitur. Bisa lebih dari 6.
+              </div>
+              <div class="card">
+                <div class="form-group">
+                  <label>Judul Section Fitur</label
+                  ><input
+                    type="text"
+                    id="f_featTitle"
+                    placeholder="Semua yang Kamu Butuhkan..."
+                  />
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-title">
+                  Daftar Fitur <span class="tag">Bisa ditambah/hapus</span>
+                </div>
+                <div id="featList"></div>
+                <button class="btn-add" onclick="addFeature()">
+                  + Tambah Fitur
+                </button>
+              </div>
+            </div>
+
+            <!-- ── STEPS ── -->
+            <div class="panel" id="panel-steps">
+              <div class="panel-title">👣 Cara Kerja</div>
+              <div class="panel-desc">Edit 3 langkah cara kerja KalimatKu.</div>
+              <div class="card">
+                <div class="grid-3">
+                  <div>
+                    <div class="card-title">Langkah 1</div>
+                    <div class="form-group">
+                      <label>Judul</label
+                      ><input
+                        type="text"
+                        id="f_step1Title"
+                        placeholder="Tempel Teks"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label>Deskripsi</label
+                      ><textarea id="f_step1Desc"></textarea>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="card-title">Langkah 2</div>
+                    <div class="form-group">
+                      <label>Judul</label
+                      ><input
+                        type="text"
+                        id="f_step2Title"
+                        placeholder="Pilih Perubahan"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label>Deskripsi</label
+                      ><textarea id="f_step2Desc"></textarea>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="card-title">Langkah 3</div>
+                    <div class="form-group">
+                      <label>Judul</label
+                      ><input
+                        type="text"
+                        id="f_step3Title"
+                        placeholder="Unduh Hasilnya"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label>Deskripsi</label
+                      ><textarea id="f_step3Desc"></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ── TESTIMONIALS ── -->
+            <div class="panel" id="panel-testimonials">
+              <div class="panel-title">💬 Testimoni</div>
+              <div class="panel-desc">
+                Tambah, edit, atau hapus testimoni pengguna.
+              </div>
+              <div class="card">
+                <div class="card-title">
+                  Daftar Testimoni <span class="tag">Bisa ditambah/hapus</span>
+                </div>
+                <div id="testiList"></div>
+                <button class="btn-add" onclick="addTestimoni()">
+                  + Tambah Testimoni
+                </button>
+              </div>
+            </div>
+
+            <!-- ── PRICING ── -->
+            <div class="panel" id="panel-pricing">
+              <div class="panel-title">💰 Harga</div>
+              <div class="panel-desc">
+                Edit nama paket dan harga. Fitur per paket diedit langsung di
+                field list.
+              </div>
+              <div class="grid-3">
+                <div class="card">
+                  <div class="card-title">Paket Gratis</div>
+                  <div class="form-group">
+                    <label>Nama Paket</label
+                    ><input
+                      type="text"
+                      id="f_price1Name"
+                      placeholder="Gratis"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label>Harga</label
+                    ><input type="text" id="f_price1Price" placeholder="Rp 0" />
+                  </div>
+                  <div class="form-group">
+                    <label>Fitur (pisah Enter)</label
+                    ><textarea
+                      id="f_price1List"
+                      rows="6"
+                      placeholder="3x perbaikan per hari&#10;Ekspor PDF&#10;Review perubahan&#10;-Unggah dokumen&#10;-Riwayat dokumen&#10;-Multi pengguna"
+                    ></textarea>
+                    <p class="hint">
+                      Awali dengan - untuk fitur yang tidak tersedia
+                    </p>
+                  </div>
+                </div>
+                <div class="card" style="border-color: var(--blue)">
+                  <div class="card-title">
+                    Paket Pro <span class="tag">Featured</span>
+                  </div>
+                  <div class="form-group">
+                    <label>Nama Paket</label
+                    ><input type="text" id="f_price2Name" placeholder="Pro" />
+                  </div>
+                  <div class="form-group">
+                    <label>Harga</label
+                    ><input
+                      type="text"
+                      id="f_price2Price"
+                      placeholder="Rp 49.000"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label>Fitur (pisah Enter)</label
+                    ><textarea
+                      id="f_price2List"
+                      rows="6"
+                      placeholder="Perbaikan tanpa batas&#10;Ekspor PDF&#10;Review perubahan&#10;Unggah dokumen&#10;Riwayat dokumen&#10;-Multi pengguna"
+                    ></textarea>
+                    <p class="hint">
+                      Awali dengan - untuk fitur yang tidak tersedia
+                    </p>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-title">Paket Tim</div>
+                  <div class="form-group">
+                    <label>Nama Paket</label
+                    ><input type="text" id="f_price3Name" placeholder="Tim" />
+                  </div>
+                  <div class="form-group">
+                    <label>Harga</label
+                    ><input
+                      type="text"
+                      id="f_price3Price"
+                      placeholder="Rp 149.000"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label>Fitur (pisah Enter)</label
+                    ><textarea
+                      id="f_price3List"
+                      rows="6"
+                      placeholder="Perbaikan tanpa batas&#10;Ekspor PDF&#10;Review perubahan&#10;Unggah dokumen&#10;Riwayat dokumen&#10;Multi pengguna (5 akun)"
+                    ></textarea>
+                    <p class="hint">
+                      Awali dengan - untuk fitur yang tidak tersedia
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ── CTA & FOOTER ── -->
+            <div class="panel" id="panel-cta">
+              <div class="panel-title">🎯 CTA & Footer</div>
+              <div class="panel-desc">
+                Edit bagian ajakan bertindak dan footer.
+              </div>
+              <div class="card">
+                <div class="card-title">CTA Final Section</div>
+                <div class="form-group">
+                  <label>Judul CTA</label
+                  ><textarea
+                    id="f_ctaTitle"
+                    placeholder="Tidak Perlu Ahli Bahasa..."
+                  ></textarea>
+                </div>
+                <div class="form-group">
+                  <label>Subtitle CTA</label
+                  ><input
+                    type="text"
+                    id="f_ctaSubtitle"
+                    placeholder="Bergabung bersama 10.000+ pengguna..."
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Teks Tombol CTA</label
+                  ><input
+                    type="text"
+                    id="f_ctaBtn"
+                    placeholder="Coba KalimatKu Gratis →"
+                  />
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-title">Footer</div>
+                <div class="form-group">
+                  <label>Tagline Footer</label
+                  ><input
+                    type="text"
+                    id="f_footerTagline"
+                    placeholder="Menyempurnakan tulisanmu, satu kalimat dalam satu waktu."
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Copyright</label
+                  ><input
+                    type="text"
+                    id="f_footerCopy"
+                    placeholder="© 2025 KalimatKu. Hak cipta dilindungi."
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- ── FAQ ── -->
+            <div class="panel" id="panel-faq">
+              <div class="panel-title">❓ FAQ</div>
+              <div class="panel-desc">
+                Tambah, edit, atau hapus pertanyaan yang sering ditanyakan.
+              </div>
+              <div class="card">
+                <div class="card-title">
+                  Daftar FAQ <span class="tag">Bisa ditambah/hapus</span>
+                </div>
+                <div id="faqList"></div>
+                <button class="btn-add" onclick="addFaq()">+ Tambah FAQ</button>
+              </div>
+            </div>
+
+            <!-- ── COLORS ── -->
+            <div class="panel" id="panel-colors">
+              <div class="panel-title">🎨 Warna & Tema</div>
+              <div class="panel-desc">Ubah palet warna utama landing page.</div>
+              <div class="card">
+                <div class="card-title">Warna Utama</div>
+                <div class="grid-3">
+                  <div class="form-group">
+                    <label>Warna Biru (Primary)</label>
+                    <div class="color-row">
+                      <input
+                        type="color"
+                        id="f_colorBlue"
+                        value="#2F80ED"
+                        oninput="previewColor('colorBlue', this.value)"
+                      />
+                      <input
+                        type="text"
+                        id="f_colorBlueHex"
+                        value="#2F80ED"
+                        placeholder="#2F80ED"
+                        oninput="syncColor('colorBlue', this.value)"
+                        style="flex: 1"
+                      />
+                      <div
+                        class="color-preview"
+                        id="prev_colorBlue"
+                        style="background: #2f80ed"
+                      ></div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label>Warna Gold (Aksen CTA)</label>
+                    <div class="color-row">
+                      <input
+                        type="color"
+                        id="f_colorGold"
+                        value="#F5A623"
+                        oninput="previewColor('colorGold', this.value)"
+                      />
+                      <input
+                        type="text"
+                        id="f_colorGoldHex"
+                        value="#F5A623"
+                        placeholder="#F5A623"
+                        oninput="syncColor('colorGold', this.value)"
+                        style="flex: 1"
+                      />
+                      <div
+                        class="color-preview"
+                        id="prev_colorGold"
+                        style="background: #f5a623"
+                      ></div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label>Warna Navy (Dark)</label>
+                    <div class="color-row">
+                      <input
+                        type="color"
+                        id="f_colorNavy"
+                        value="#1E3A5F"
+                        oninput="previewColor('colorNavy', this.value)"
+                      />
+                      <input
+                        type="text"
+                        id="f_colorNavyHex"
+                        value="#1E3A5F"
+                        placeholder="#1E3A5F"
+                        oninput="syncColor('colorNavy', this.value)"
+                        style="flex: 1"
+                      />
+                      <div
+                        class="color-preview"
+                        id="prev_colorNavy"
+                        style="background: #1e3a5f"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+                <button
+                  class="btn-sm"
+                  onclick="resetColors()"
+                  style="margin-top: 0.5rem"
+                >
+                  ↺ Reset ke Default
+                </button>
+              </div>
+            </div>
+
+            <!-- ── ACCOUNT ── -->
+            <div class="panel" id="panel-account">
+              <div class="panel-title">🔐 Ubah Akun Admin</div>
+              <div class="panel-desc">
+                Ubah username dan password login admin.
+              </div>
+              <div class="card" style="max-width: 480px">
+                <div class="card-title">Kredensial Admin</div>
+                <div class="form-group">
+                  <label>Username Baru</label
+                  ><input type="text" id="f_newUser" placeholder="admin" />
+                </div>
+                <div class="form-group">
+                  <label>Password Baru</label
+                  ><input
+                    type="password"
+                    id="f_newPass"
+                    placeholder="••••••••"
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Konfirmasi Password</label
+                  ><input
+                    type="password"
+                    id="f_confPass"
+                    placeholder="••••••••"
+                  />
+                </div>
+                <button class="btn-sm primary" onclick="changeCredentials()">
+                  Simpan Kredensial
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- /admin-content -->
+        </div>
+        <!-- /admin-main -->
+      </div>
+      <!-- /admin-layout -->
+    </div>
+    <!-- /adminScreen -->
+
+    <script>
+      /* ══════════════════════════════════════
+   AUTH
+══════════════════════════════════════ */
+      const DEFAULT_USER = "admin";
+      const DEFAULT_PASS = "kalimatku123";
+
+      function getCredentials() {
+        return {
+          user: localStorage.getItem("kk_user") || DEFAULT_USER,
+          pass: localStorage.getItem("kk_pass") || DEFAULT_PASS,
+        };
+      }
+
+      function doLogin() {
+        const u = document.getElementById("loginUser").value.trim();
+        const p = document.getElementById("loginPass").value.trim();
+        const cred = getCredentials();
+        if (u === cred.user && p === cred.pass) {
+          localStorage.setItem("kk_auth", "1");
+          document.getElementById("loginScreen").style.display = "none";
+          document.getElementById("adminScreen").style.display = "block";
+          loadFormData();
+        } else {
+          document.getElementById("loginError").style.display = "block";
+        }
+      }
+
+      document.getElementById("loginPass").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") doLogin();
+      });
+
+      function doLogout() {
+        localStorage.removeItem("kk_auth");
+        document.getElementById("adminScreen").style.display = "none";
+        document.getElementById("loginScreen").style.display = "flex";
+        document.getElementById("loginUser").value = "";
+        document.getElementById("loginPass").value = "";
+      }
+
+      function changeCredentials() {
+        const u = document.getElementById("f_newUser").value.trim();
+        const p = document.getElementById("f_newPass").value;
+        const cp = document.getElementById("f_confPass").value;
+        if (!u || !p)
+          return showToast("Username dan password tidak boleh kosong!", true);
+        if (p !== cp) return showToast("Password tidak cocok!", true);
+        localStorage.setItem("kk_user", u);
+        localStorage.setItem("kk_pass", p);
+        showToast("✅ Kredensial berhasil diubah!");
+      }
+
+      // Auto login check
+      if (localStorage.getItem("kk_auth") === "1") {
+        document.getElementById("loginScreen").style.display = "none";
+        document.getElementById("adminScreen").style.display = "block";
+        loadFormData();
+      }
+
+      /* ══════════════════════════════════════
+   PANEL NAVIGATION
+══════════════════════════════════════ */
+      const panelNames = {
+        dashboard: "Dashboard",
+        hero: "Hero Section",
+        stats: "Statistik",
+        pain: "Pain Point",
+        features: "Fitur Unggulan",
+        steps: "Cara Kerja",
+        testimonials: "Testimoni",
+        pricing: "Harga",
+        cta: "CTA & Footer",
+        faq: "FAQ",
+        colors: "Warna & Tema",
+        account: "Ubah Akun",
+      };
+
+      function showPanel(name) {
+        document
+          .querySelectorAll(".panel")
+          .forEach((p) => p.classList.remove("active"));
+        document
+          .querySelectorAll(".nav-item")
+          .forEach((n) => n.classList.remove("active"));
+        document.getElementById("panel-" + name).classList.add("active");
+        document.querySelectorAll(".nav-item").forEach((n) => {
+          if (n.getAttribute("onclick") === `showPanel('${name}')`)
+            n.classList.add("active");
+        });
+        document.getElementById("topbarTitle").textContent =
+          panelNames[name] || name;
+        closeSidebar();
+      }
+
+      /* ══════════════════════════════════════
+   SIDEBAR MOBILE
+══════════════════════════════════════ */
+      function openSidebar() {
+        document.getElementById("sidebar").classList.add("open");
+        document.getElementById("overlay").classList.add("open");
+      }
+      function closeSidebar() {
+        document.getElementById("sidebar").classList.remove("open");
+        document.getElementById("overlay").classList.remove("open");
+      }
+
+      /* ══════════════════════════════════════
+   THEME
+══════════════════════════════════════ */
+      function toggleTheme() {
+        const html = document.documentElement;
+        html.setAttribute(
+          "data-theme",
+          html.getAttribute("data-theme") === "dark" ? "light" : "dark",
+        );
+      }
+
+      /* ══════════════════════════════════════
+   DYNAMIC LISTS: FEATURES
+══════════════════════════════════════ */
+      let features = [
+        {
+          icon: "✏️",
+          title: "Koreksi Kata Tidak Baku",
+          desc: "Otomatis mendeteksi dan mengganti kata gaul atau tidak baku sesuai kaidah KBBI terbaru.",
+        },
+        {
+          icon: "🗑️",
+          title: "Hapus Kalimat Boros",
+          desc: "Memangkas kalimat bertele-tele tanpa mengubah makna aslinya. Lebih padat, lebih kuat.",
+        },
+        {
+          icon: "🔤",
+          title: "Cetak Miring Istilah Asing",
+          desc: "Setiap kata asing otomatis dicetak miring sesuai kaidah penulisan KBBI dan EYD.",
+        },
+        {
+          icon: "👁️",
+          title: "Review Perubahan",
+          desc: "Kamu bisa menerima atau menolak setiap saran perubahan satu per satu. Kontrol penuh.",
+        },
+        {
+          icon: "📄",
+          title: "Ekspor PDF Langsung",
+          desc: "Unduh hasil akhir dalam format PDF yang rapi, formal, dan siap digunakan kapan saja.",
+        },
+        {
+          icon: "⚡",
+          title: "Proses dalam 3 Detik",
+          desc: "Tidak perlu menunggu lama. Teknologi AI terkini memastikan hasilnya instan dan akurat.",
+        },
+      ];
+
+      function renderFeatures() {
+        const list = document.getElementById("featList");
+        list.innerHTML = features
+          .map(
+            (f, i) => `
+    <div class="repeater-item">
+      <div class="repeater-header">
+        <span class="repeater-label">Fitur ${i + 1}</span>
+        <button class="btn-remove" onclick="removeFeature(${i})">✕</button>
+      </div>
+      <div class="grid-3">
+        <div class="form-group"><label>Icon (emoji)</label><input type="text" value="${f.icon}" oninput="features[${i}].icon=this.value" /></div>
+        <div class="form-group" style="grid-column:span 2;"><label>Judul</label><input type="text" value="${f.title}" oninput="features[${i}].title=this.value" /></div>
+      </div>
+      <div class="form-group"><label>Deskripsi</label><textarea oninput="features[${i}].desc=this.value">${f.desc}</textarea></div>
+    </div>`,
+          )
+          .join("");
+      }
+
+      function addFeature() {
+        features.push({
+          icon: "⭐",
+          title: "Fitur Baru",
+          desc: "Deskripsi fitur baru.",
+        });
+        renderFeatures();
+      }
+
+      function removeFeature(i) {
+        if (features.length <= 1) return showToast("Minimal 1 fitur!", true);
+        features.splice(i, 1);
+        renderFeatures();
+      }
+
+      /* ══════════════════════════════════════
+   DYNAMIC LISTS: TESTIMONI
+══════════════════════════════════════ */
+      let testimonials = [
+        {
+          quote:
+            "Saya pakai KalimatKu buat revisi proposal skripsi saya. Dosen langsung bilang bahasanya jauh lebih baku. Sangat membantu!",
+          name: "Rania Aulia",
+          role: "Mahasiswa S1, Universitas Padjadjaran",
+          initials: "RA",
+          stars: 5,
+        },
+        {
+          quote:
+            "Sebagai HRD, saya sering buat surat kontrak dan penawaran. KalimatKu bikin prosesnya 2x lebih cepat dan hasilnya lebih profesional.",
+          name: "Budi Santoso",
+          role: "HRD Manager, Jakarta",
+          initials: "BS",
+          stars: 5,
+        },
+        {
+          quote:
+            "Awalnya skeptis, tapi setelah coba langsung ketagihan. Fitur review perubahan-nya keren banget, saya tetap punya kontrol penuh.",
+          name: "Mira Kusuma",
+          role: "Content Strategist, Bandung",
+          initials: "MK",
+          stars: 5,
+        },
+      ];
+
+      function renderTestimoni() {
+        const list = document.getElementById("testiList");
+        list.innerHTML = testimonials
+          .map(
+            (t, i) => `
+    <div class="repeater-item">
+      <div class="repeater-header">
+        <span class="repeater-label">Testimoni ${i + 1}</span>
+        <button class="btn-remove" onclick="removeTestimoni(${i})">✕</button>
+      </div>
+      <div class="form-group"><label>Kutipan</label><textarea oninput="testimonials[${i}].quote=this.value">${t.quote}</textarea></div>
+      <div class="grid-3">
+        <div class="form-group"><label>Nama</label><input type="text" value="${t.name}" oninput="testimonials[${i}].name=this.value" /></div>
+        <div class="form-group"><label>Jabatan/Role</label><input type="text" value="${t.role}" oninput="testimonials[${i}].role=this.value" /></div>
+        <div class="form-group"><label>Inisial (2 huruf)</label><input type="text" maxlength="2" value="${t.initials}" oninput="testimonials[${i}].initials=this.value" /></div>
+      </div>
+    </div>`,
+          )
+          .join("");
+      }
+
+      function addTestimoni() {
+        testimonials.push({
+          quote: "Tuliskan testimoni di sini.",
+          name: "Nama Pengguna",
+          role: "Jabatan, Kota",
+          initials: "NP",
+          stars: 5,
+        });
+        renderTestimoni();
+      }
+
+      function removeTestimoni(i) {
+        if (testimonials.length <= 1)
+          return showToast("Minimal 1 testimoni!", true);
+        testimonials.splice(i, 1);
+        renderTestimoni();
+      }
+
+      /* ══════════════════════════════════════
+   DYNAMIC LISTS: FAQ
+══════════════════════════════════════ */
+      let faqs = [
+        {
+          q: "Apakah KalimatKu gratis?",
+          a: "Ya! Kamu bisa menggunakan KalimatKu secara gratis hingga 3 kali perbaikan per hari.",
+        },
+        {
+          q: "Apakah data teks saya aman?",
+          a: "Sangat aman. Teks yang kamu masukkan tidak disimpan di server kami setelah proses selesai.",
+        },
+        {
+          q: "Format dokumen apa saja yang didukung?",
+          a: "KalimatKu mendukung input teks langsung, serta unggah dokumen .docx dan .pdf (paket Pro ke atas).",
+        },
+        {
+          q: "Apakah KalimatKu mengubah makna tulisan saya?",
+          a: "Tidak. KalimatKu hanya menyempurnakan struktur dan diksi, bukan mengubah isi atau makna.",
+        },
+        {
+          q: "Apakah cocok untuk skripsi atau karya ilmiah?",
+          a: "Sangat cocok! KalimatKu mengikuti kaidah KBBI dan gaya penulisan formal untuk dokumen akademik.",
+        },
+      ];
+
+      function renderFaq() {
+        const list = document.getElementById("faqList");
+        list.innerHTML = faqs
+          .map(
+            (f, i) => `
+    <div class="repeater-item">
+      <div class="repeater-header">
+        <span class="repeater-label">FAQ ${i + 1}</span>
+        <button class="btn-remove" onclick="removeFaq(${i})">✕</button>
+      </div>
+      <div class="form-group"><label>Pertanyaan</label><input type="text" value="${f.q}" oninput="faqs[${i}].q=this.value" /></div>
+      <div class="form-group"><label>Jawaban</label><textarea oninput="faqs[${i}].a=this.value">${f.a}</textarea></div>
+    </div>`,
+          )
+          .join("");
+      }
+
+      function addFaq() {
+        faqs.push({ q: "Pertanyaan baru?", a: "Jawaban di sini." });
+        renderFaq();
+      }
+
+      function removeFaq(i) {
+        if (faqs.length <= 1) return showToast("Minimal 1 FAQ!", true);
+        faqs.splice(i, 1);
+        renderFaq();
+      }
+
+      /* ══════════════════════════════════════
+   COLOR PICKER
+══════════════════════════════════════ */
+      function previewColor(key, val) {
+        document.getElementById("f_" + key + "Hex").value = val;
+        document.getElementById("prev_" + key).style.background = val;
+      }
+
+      function syncColor(key, val) {
+        if (/^#[0-9A-Fa-f]{6}$/.test(val)) {
+          document.getElementById("f_" + key).value = val;
+          document.getElementById("prev_" + key).style.background = val;
+        }
+      }
+
+      function resetColors() {
+        const defaults = {
+          colorBlue: "#2F80ED",
+          colorGold: "#F5A623",
+          colorNavy: "#1E3A5F",
+        };
+        Object.entries(defaults).forEach(([k, v]) => {
+          document.getElementById("f_" + k).value = v;
+          document.getElementById("f_" + k + "Hex").value = v;
+          document.getElementById("prev_" + k).style.background = v;
+        });
+        showToast("✅ Warna direset ke default!");
+      }
+
+      /* ══════════════════════════════════════
+   SAVE & LOAD
+══════════════════════════════════════ */
+      function val(id) {
+        const el = document.getElementById(id);
+        return el ? el.value : "";
+      }
+
+      function saveAll() {
+        const data = {
+          heroBadge: val("f_heroBadge"),
+          heroTitle: val("f_heroTitle"),
+          heroGlitch: val("f_heroGlitch"),
+          heroSub: val("f_heroSub"),
+          heroCta1: val("f_heroCta1"),
+          heroCta2: val("f_heroCta2"),
+          heroNote: val("f_heroNote"),
+
+          stat1Num: val("f_stat1Num"),
+          stat1Suf: val("f_stat1Suf"),
+          stat1Lab: val("f_stat1Lab"),
+          stat2Num: val("f_stat2Num"),
+          stat2Suf: val("f_stat2Suf"),
+          stat2Lab: val("f_stat2Lab"),
+          stat3Num: val("f_stat3Num"),
+          stat3Suf: val("f_stat3Suf"),
+          stat3Lab: val("f_stat3Lab"),
+          stat4Num: val("f_stat4Num"),
+          stat4Suf: val("f_stat4Suf"),
+          stat4Lab: val("f_stat4Lab"),
+
+          painTitle: val("f_painTitle"),
+          painQuote: val("f_painQuote"),
+          pain1Title: val("f_pain1Title"),
+          pain1Desc: val("f_pain1Desc"),
+          pain2Title: val("f_pain2Title"),
+          pain2Desc: val("f_pain2Desc"),
+          pain3Title: val("f_pain3Title"),
+          pain3Desc: val("f_pain3Desc"),
+
+          featTitle: val("f_featTitle"),
+          features: features,
+          testimonials: testimonials,
+          faqs: faqs,
+
+          step1Title: val("f_step1Title"),
+          step1Desc: val("f_step1Desc"),
+          step2Title: val("f_step2Title"),
+          step2Desc: val("f_step2Desc"),
+          step3Title: val("f_step3Title"),
+          step3Desc: val("f_step3Desc"),
+
+          price1Name: val("f_price1Name"),
+          price1Price: val("f_price1Price"),
+          price1List: val("f_price1List"),
+          price2Name: val("f_price2Name"),
+          price2Price: val("f_price2Price"),
+          price2List: val("f_price2List"),
+          price3Name: val("f_price3Name"),
+          price3Price: val("f_price3Price"),
+          price3List: val("f_price3List"),
+
+          ctaTitle: val("f_ctaTitle"),
+          ctaSubtitle: val("f_ctaSubtitle"),
+          ctaBtn: val("f_ctaBtn"),
+
+          footerTagline: val("f_footerTagline"),
+          footerCopy: val("f_footerCopy"),
+
+          colorBlue: val("f_colorBlueHex"),
+          colorGold: val("f_colorGoldHex"),
+          colorNavy: val("f_colorNavyHex"),
+        };
+
+        localStorage.setItem("kalimatku_content", JSON.stringify(data));
+        showToast("✅ Semua perubahan berhasil disimpan!");
+      }
+
+      function loadFormData() {
+        const data = JSON.parse(
+          localStorage.getItem("kalimatku_content") || "{}",
+        );
+
+        const fill = (id, val) => {
+          const el = document.getElementById(id);
+          if (el && val !== undefined && val !== "") el.value = val;
+        };
+
+        fill("f_heroBadge", data.heroBadge);
+        fill("f_heroTitle", data.heroTitle);
+        fill("f_heroGlitch", data.heroGlitch);
+        fill("f_heroSub", data.heroSub);
+        fill("f_heroCta1", data.heroCta1);
+        fill("f_heroCta2", data.heroCta2);
+        fill("f_heroNote", data.heroNote);
+
+        ["stat1", "stat2", "stat3", "stat4"].forEach((s) => {
+          fill("f_" + s + "Num", data[s + "Num"]);
+          fill("f_" + s + "Suf", data[s + "Suf"]);
+          fill("f_" + s + "Lab", data[s + "Lab"]);
+        });
+
+        fill("f_painTitle", data.painTitle);
+        fill("f_painQuote", data.painQuote);
+        fill("f_pain1Title", data.pain1Title);
+        fill("f_pain1Desc", data.pain1Desc);
+        fill("f_pain2Title", data.pain2Title);
+        fill("f_pain2Desc", data.pain2Desc);
+        fill("f_pain3Title", data.pain3Title);
+        fill("f_pain3Desc", data.pain3Desc);
+
+        fill("f_featTitle", data.featTitle);
+        if (data.features && data.features.length) features = data.features;
+
+        fill("f_step1Title", data.step1Title);
+        fill("f_step1Desc", data.step1Desc);
+        fill("f_step2Title", data.step2Title);
+        fill("f_step2Desc", data.step2Desc);
+        fill("f_step3Title", data.step3Title);
+        fill("f_step3Desc", data.step3Desc);
+
+        if (data.testimonials && data.testimonials.length)
+          testimonials = data.testimonials;
+        if (data.faqs && data.faqs.length) faqs = data.faqs;
+
+        fill("f_price1Name", data.price1Name);
+        fill("f_price1Price", data.price1Price);
+        fill("f_price1List", data.price1List);
+        fill("f_price2Name", data.price2Name);
+        fill("f_price2Price", data.price2Price);
+        fill("f_price2List", data.price2List);
+        fill("f_price3Name", data.price3Name);
+        fill("f_price3Price", data.price3Price);
+        fill("f_price3List", data.price3List);
+
+        fill("f_ctaTitle", data.ctaTitle);
+        fill("f_ctaSubtitle", data.ctaSubtitle);
+        fill("f_ctaBtn", data.ctaBtn);
+        fill("f_footerTagline", data.footerTagline);
+        fill("f_footerCopy", data.footerCopy);
+
+        if (data.colorBlue) {
+          fill("f_colorBlue", data.colorBlue);
+          fill("f_colorBlueHex", data.colorBlue);
+          document.getElementById("prev_colorBlue").style.background =
+            data.colorBlue;
+        }
+        if (data.colorGold) {
+          fill("f_colorGold", data.colorGold);
+          fill("f_colorGoldHex", data.colorGold);
+          document.getElementById("prev_colorGold").style.background =
+            data.colorGold;
+        }
+        if (data.colorNavy) {
+          fill("f_colorNavy", data.colorNavy);
+          fill("f_colorNavyHex", data.colorNavy);
+          document.getElementById("prev_colorNavy").style.background =
+            data.colorNavy;
+        }
+
+        renderFeatures();
+        renderTestimoni();
+        renderFaq();
+      }
+
+      /* ══════════════════════════════════════
+   TOAST
+══════════════════════════════════════ */
+      function showToast(msg, isError = false) {
+        const t = document.getElementById("toast");
+        t.textContent = msg;
+        t.className = "toast" + (isError ? " error" : "");
+        setTimeout(() => t.classList.add("show"), 10);
+        setTimeout(() => t.classList.remove("show"), 3000);
+      }
+    </script>
+  </body>
+</html>

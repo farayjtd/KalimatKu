@@ -1,469 +1,619 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id" data-theme="light">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>KalimatKu — Penyempurna Teks Bahasa Indonesia</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KalimatKu — Penyempurna Teks Bahasa Indonesia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+    <canvas id="particleCanvas"></canvas>
 
-  <!-- CURSOR FOLLOWER -->
-  <div class="cursor-dot" id="cursorDot"></div>
-  <div class="cursor-ring" id="cursorRing"></div>
-
-  <!-- PARTICLE CANVAS -->
-  <canvas id="particleCanvas"></canvas>
-
-  <!-- NAVBAR -->
-  <nav id="navbar">
-    <a href="#" class="nav-logo">Kalimat<span>Ku</span></a>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="#fitur">Fitur</a></li>
-      <li><a href="#cara-kerja">Cara Kerja</a></li>
-      <li><a href="#harga">Harga</a></li>
-      <li><a href="#faq">FAQ</a></li>
-      <li><a href="#" class="nav-cta">Coba Gratis</a></li>
-    </ul>
-    <div class="nav-right">
-      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-        <span class="theme-icon sun">☀️</span>
-        <span class="theme-icon moon">🌙</span>
-        <div class="toggle-thumb"></div>
-      </button>
-      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </nav>
-
-  <!-- HERO -->
-  <section class="hero" id="home">
-    <div class="hero-bg">
-      <div class="parallax-layer layer-1" data-speed="0.3">
-        <div class="orb orb-1"></div>
+    <!-- NAVBAR -->
+    <nav id="navbar">
+      <a href="#" class="nav-logo">Kalimat<span>Ku</span></a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#fitur">Fitur</a></li>
+        <li><a href="#cara-kerja">Cara Kerja</a></li>
+        <li><a href="#harga">Harga</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#" class="nav-cta" id="navCta">Coba Gratis</a></li>
+      </ul>
+      <div class="nav-right">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+          <span class="theme-icon sun">☀️</span>
+          <span class="theme-icon moon">🌙</span>
+          <div class="toggle-thumb"></div>
+        </button>
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+          <span></span><span></span><span></span>
+        </button>
       </div>
-      <div class="parallax-layer layer-2" data-speed="0.5">
-        <div class="orb orb-2"></div>
-      </div>
-      <div class="parallax-layer layer-3" data-speed="0.2">
-        <div class="orb orb-3"></div>
-      </div>
-    </div>
-    <div class="container hero-content">
-      <div class="hero-text animate-up">
-        <div class="hero-badge">
-          <span class="badge-dot"></span>
-          Platform Bahasa Indonesia #1
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="home">
+      <div class="hero-bg">
+        <div class="parallax-layer" data-speed="0.3">
+          <div class="orb orb-1"></div>
         </div>
-        <h1>Tulisanmu Sudah Panjang,<br>Tapi Masih Terasa<br><em class="glitch" data-text="Kurang Profesional?">Kurang Profesional?</em></h1>
-        <p class="hero-sub">KalimatKu memperbaiki kata tidak baku, membuang kalimat boros, dan menyempurnakan struktur tulisanmu agar terasa formal dan siap digunakan secara profesional — dalam hitungan detik.</p>
-        <div class="hero-actions">
-          <a href="#" class="btn-primary">
-            <span>Sempurnakan Teks Sekarang</span>
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </a>
-          <a href="#cara-kerja" class="btn-ghost">
-            <span>Lihat Cara Kerjanya</span>
-          </a>
+        <div class="parallax-layer" data-speed="0.5">
+          <div class="orb orb-2"></div>
         </div>
-        <p class="hero-note">✓ Gratis &nbsp;·&nbsp; ✓ Tanpa daftar &nbsp;·&nbsp; ✓ Hasil instan</p>
+        <div class="parallax-layer" data-speed="0.2">
+          <div class="orb orb-3"></div>
+        </div>
       </div>
-      <div class="hero-mockup animate-up delay-2">
-        <div class="mockup-wrapper">
-          <div class="mockup-glow"></div>
-          <div class="mockup-card">
-            <div class="mockup-header">
-              <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
-              <span class="mockup-title">Sebelum</span>
-            </div>
-            <div class="mockup-body">
-              <p>Saya mau <mark class="bad">ngasih tau</mark> bapak bahwa <mark class="bad">meeting</mark> kita <mark class="bad">udah</mark> dijadwalkan ulang. <mark class="bad">Mohon bisa</mark> hadir tepat waktu.</p>
-            </div>
+      <div class="container hero-content">
+        <div class="hero-text animate-up">
+          <div class="hero-badge">
+            <span class="badge-dot"></span
+            ><span id="heroBadge">Platform Bahasa Indonesia #1</span>
           </div>
-          <div class="mockup-arrow">
-            <div class="arrow-line"></div>
-            <span>AI memproses...</span>
+          <h1 id="heroTitle">
+            Tulisanmu Sudah Panjang,<br />Tapi Masih Terasa<br /><em
+              class="glitch"
+              id="heroGlitch"
+              data-text="Kurang Profesional?"
+              >Kurang Profesional?</em
+            >
+          </h1>
+          <p class="hero-sub" id="heroSub">
+            KalimatKu memperbaiki kata tidak baku, membuang kalimat boros, dan
+            menyempurnakan struktur tulisanmu agar terasa formal dan siap
+            digunakan secara profesional — dalam hitungan detik.
+          </p>
+          <div class="hero-actions">
+            <a href="#" class="btn-primary" id="heroCta1"
+              ><span id="heroCta1Text">Sempurnakan Teks Sekarang</span
+              ><svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path
+                  d="M3 8h10M9 4l4 4-4 4"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                /></svg
+            ></a>
+            <a href="#cara-kerja" class="btn-ghost"
+              ><span id="heroCta2Text">Lihat Cara Kerjanya</span></a
+            >
           </div>
-          <div class="mockup-card after">
-            <div class="mockup-header">
-              <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
-              <span class="mockup-title">Sesudah ✓</span>
+          <p class="hero-note" id="heroNote">
+            ✓ Gratis &nbsp;·&nbsp; ✓ Tanpa daftar &nbsp;·&nbsp; ✓ Hasil instan
+          </p>
+        </div>
+        <div class="hero-mockup animate-up delay-2">
+          <div class="mockup-wrapper">
+            <div class="mockup-glow"></div>
+            <div class="mockup-card">
+              <div class="mockup-header">
+                <span class="dot red"></span><span class="dot yellow"></span
+                ><span class="dot green"></span
+                ><span class="mockup-title">Sebelum</span>
+              </div>
+              <div class="mockup-body">
+                <p>
+                  Saya mau <mark class="bad">ngasih tau</mark> bapak bahwa
+                  <mark class="bad">meeting</mark> kita
+                  <mark class="bad">udah</mark> dijadwalkan ulang.
+                  <mark class="bad">Mohon bisa</mark> hadir tepat waktu.
+                </p>
+              </div>
             </div>
-            <div class="mockup-body">
-              <p>Saya ingin memberitahu Bapak bahwa <mark class="good"><em>meeting</em></mark> kita telah dijadwalkan ulang. Mohon hadir tepat waktu.</p>
+            <div class="mockup-arrow">
+              <div class="arrow-line"></div>
+              <span>AI memproses...</span>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="hero-scroll-hint">
-      <div class="mouse-icon"><div class="mouse-wheel"></div></div>
-      <span>Scroll</span>
-    </div>
-  </section>
-
-  <!-- STATS -->
-  <section class="stats">
-    <div class="container stats-grid">
-      <div class="stat-item animate-up">
-        <span class="stat-number" data-target="10000">0</span><span class="stat-suffix">+</span>
-        <span class="stat-label">Pengguna Aktif</span>
-      </div>
-      <div class="stat-item animate-up delay-1">
-        <span class="stat-number" data-target="500000">0</span><span class="stat-suffix">+</span>
-        <span class="stat-label">Dokumen Diperbaiki</span>
-      </div>
-      <div class="stat-item animate-up delay-2">
-        <span class="stat-number" data-target="4.9">0</span><span class="stat-suffix">/5</span>
-        <span class="stat-label">Rating Kepuasan</span>
-      </div>
-      <div class="stat-item animate-up delay-3">
-        <span class="stat-number" data-target="3">0</span><span class="stat-suffix"> dtk</span>
-        <span class="stat-label">Rata-rata Proses</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- PAIN POINT -->
-  <section class="pain" id="masalah">
-    <div class="parallax-bg" data-speed="0.15"></div>
-    <div class="container">
-      <div class="section-label animate-up">Masalah</div>
-      <h2 class="section-title animate-up">Kesalahan Kecil dalam Bahasa Bisa<br>Merusak <em>Kesan Besar</em> yang Ingin Kamu Bangun</h2>
-      <div class="pain-grid">
-        <div class="pain-card animate-up delay-1" data-tilt>
-          <div class="card-glow"></div>
-          <div class="pain-icon">🔴</div>
-          <h3>Kata Tidak Baku</h3>
-          <p>Kamu nulis <strong>"nggak"</strong>, <strong>"udah"</strong>, <strong>"gak"</strong> — tanpa sadar dokumen resmimu terasa seperti chat WhatsApp.</p>
-        </div>
-        <div class="pain-card animate-up delay-2" data-tilt>
-          <div class="card-glow"></div>
-          <div class="pain-icon">🔴</div>
-          <h3>Kalimat Bertele-tele</h3>
-          <p>Satu ide yang bisa disampaikan dalam 10 kata, malah ditulis dalam 40 kata. Pembaca jadi lelah sebelum sampai ke inti.</p>
-        </div>
-        <div class="pain-card animate-up delay-3" data-tilt>
-          <div class="card-glow"></div>
-          <div class="pain-icon">🔴</div>
-          <h3>Istilah Asing Salah Tulis</h3>
-          <p><strong>"meeting"</strong> ditulis tanpa cetak miring. <strong>"deadline"</strong> tidak mengikuti kaidah. Detail kecil yang sering membuat dokumen terlihat tidak serius.</p>
-        </div>
-      </div>
-      <div class="pain-quote animate-up">
-        <blockquote>
-          "Bayangkan proposal bisnis yang sudah kamu susun berjam-jam ditolak hanya karena bahasanya tidak baku. Jangan biarkan itu terjadi."
-        </blockquote>
-      </div>
-    </div>
-  </section>
-
-  <!-- FITUR -->
-  <section class="features" id="fitur">
-    <div class="container">
-      <div class="section-label animate-up">Fitur Unggulan</div>
-      <h2 class="section-title animate-up">Semua yang Kamu Butuhkan untuk<br>Tulisan yang Lebih <em>Profesional</em></h2>
-      <div class="features-grid">
-        <div class="feature-card animate-up delay-1" data-tilt>
-          <div class="feature-icon-wrap"><span>✏️</span></div>
-          <h3>Koreksi Kata Tidak Baku</h3>
-          <p>Otomatis mendeteksi dan mengganti kata gaul atau tidak baku sesuai kaidah KBBI terbaru.</p>
-          <div class="feature-line"></div>
-        </div>
-        <div class="feature-card animate-up delay-2" data-tilt>
-          <div class="feature-icon-wrap"><span>🗑️</span></div>
-          <h3>Hapus Kalimat Boros</h3>
-          <p>Memangkas kalimat bertele-tele tanpa mengubah makna aslinya. Lebih padat, lebih kuat.</p>
-          <div class="feature-line"></div>
-        </div>
-        <div class="feature-card animate-up delay-3" data-tilt>
-          <div class="feature-icon-wrap"><span>🔤</span></div>
-          <h3>Cetak Miring Istilah Asing</h3>
-          <p>Setiap kata asing otomatis dicetak miring sesuai kaidah penulisan KBBI dan EYD.</p>
-          <div class="feature-line"></div>
-        </div>
-        <div class="feature-card animate-up delay-1" data-tilt>
-          <div class="feature-icon-wrap"><span>👁️</span></div>
-          <h3>Review Perubahan</h3>
-          <p>Kamu bisa menerima atau menolak setiap saran perubahan satu per satu. Kontrol penuh.</p>
-          <div class="feature-line"></div>
-        </div>
-        <div class="feature-card animate-up delay-2" data-tilt>
-          <div class="feature-icon-wrap"><span>📄</span></div>
-          <h3>Ekspor PDF Langsung</h3>
-          <p>Unduh hasil akhir dalam format PDF yang rapi, formal, dan siap digunakan kapan saja.</p>
-          <div class="feature-line"></div>
-        </div>
-        <div class="feature-card animate-up delay-3" data-tilt>
-          <div class="feature-icon-wrap"><span>⚡</span></div>
-          <h3>Proses dalam 3 Detik</h3>
-          <p>Tidak perlu menunggu lama. Teknologi AI terkini memastikan hasilnya instan dan akurat.</p>
-          <div class="feature-line"></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CARA KERJA -->
-  <section class="how-it-works" id="cara-kerja">
-    <div class="parallax-bg" data-speed="0.1"></div>
-    <div class="container">
-      <div class="section-label animate-up">Cara Kerja</div>
-      <h2 class="section-title animate-up">Semudah Copy–Paste.<br><em>Sesimpel 3 Langkah.</em></h2>
-      <div class="steps-grid">
-        <div class="step-card animate-up delay-1">
-          <div class="step-number">01</div>
-          <div class="step-icon">📋</div>
-          <h3>Tempel Teks</h3>
-          <p>Salin dan tempel teks kamu langsung ke kolom yang tersedia, atau unggah dokumen Word/PDF milikmu.</p>
-        </div>
-        <div class="step-connector animate-up delay-2">
-          <div class="connector-line"></div>
-          <div class="connector-arrow">→</div>
-        </div>
-        <div class="step-card animate-up delay-2">
-          <div class="step-number">02</div>
-          <div class="step-icon">🔍</div>
-          <h3>Pilih Perubahan</h3>
-          <p>KalimatKu menampilkan semua saran perbaikan. Kamu bebas menerima atau menolak setiap perubahan.</p>
-        </div>
-        <div class="step-connector animate-up delay-3">
-          <div class="connector-line"></div>
-          <div class="connector-arrow">→</div>
-        </div>
-        <div class="step-card animate-up delay-3">
-          <div class="step-number">03</div>
-          <div class="step-icon">📥</div>
-          <h3>Unduh Hasilnya</h3>
-          <p>Klik unduh dan dapatkan dokumen final dalam format PDF yang rapi, formal, dan siap digunakan.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- USE CASE -->
-  <section class="usecase" id="usecase">
-    <div class="container">
-      <div class="section-label animate-up">Cocok Untuk</div>
-      <h2 class="section-title animate-up">KalimatKu untuk Siapa Saja yang<br>Butuh Tulisan <em>Profesional</em></h2>
-      <div class="usecase-grid">
-        <div class="usecase-card animate-up delay-1">
-          <span class="usecase-emoji">🎓</span>
-          <h3>Mahasiswa</h3>
-          <p>Skripsi, laporan praktikum, proposal penelitian</p>
-        </div>
-        <div class="usecase-card animate-up delay-2">
-          <span class="usecase-emoji">💼</span>
-          <h3>Profesional Muda</h3>
-          <p>Email kerja, laporan bulanan, notulen rapat</p>
-        </div>
-        <div class="usecase-card animate-up delay-3">
-          <span class="usecase-emoji">📋</span>
-          <h3>HRD & Rekrutmen</h3>
-          <p>Surat penawaran kerja, kontrak karyawan</p>
-        </div>
-        <div class="usecase-card animate-up delay-1">
-          <span class="usecase-emoji">🤝</span>
-          <h3>Pebisnis</h3>
-          <p>Proposal bisnis, surat perjanjian, penawaran klien</p>
-        </div>
-        <div class="usecase-card animate-up delay-2">
-          <span class="usecase-emoji">📝</span>
-          <h3>Fresh Graduate</h3>
-          <p>Surat lamaran kerja, CV, portofolio tertulis</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- TESTIMONI -->
-  <section class="testimonials" id="testimoni">
-    <div class="container">
-      <div class="section-label animate-up">Testimoni</div>
-      <h2 class="section-title animate-up">Dipercaya Ribuan Pengguna<br>di <em>Seluruh Indonesia</em></h2>
-      <div class="testimonials-grid">
-        <div class="testi-card animate-up delay-1" data-tilt>
-          <div class="testi-stars">★★★★★</div>
-          <p class="testi-quote">"Saya pakai KalimatKu buat revisi proposal skripsi saya. Dosen langsung bilang bahasanya jauh lebih baku. Sangat membantu!"</p>
-          <div class="testi-author">
-            <div class="testi-avatar">RA</div>
-            <div>
-              <strong>Rania Aulia</strong>
-              <span>Mahasiswa S1, Universitas Padjadjaran</span>
-            </div>
-          </div>
-        </div>
-        <div class="testi-card animate-up delay-2" data-tilt>
-          <div class="testi-stars">★★★★★</div>
-          <p class="testi-quote">"Sebagai HRD, saya sering buat surat kontrak dan penawaran. KalimatKu bikin prosesnya 2x lebih cepat dan hasilnya lebih profesional."</p>
-          <div class="testi-author">
-            <div class="testi-avatar">BS</div>
-            <div>
-              <strong>Budi Santoso</strong>
-              <span>HRD Manager, Jakarta</span>
-            </div>
-          </div>
-        </div>
-        <div class="testi-card animate-up delay-3" data-tilt>
-          <div class="testi-stars">★★★★★</div>
-          <p class="testi-quote">"Awalnya skeptis, tapi setelah coba langsung ketagihan. Fitur review perubahan-nya keren banget, saya tetap punya kontrol penuh."</p>
-          <div class="testi-author">
-            <div class="testi-avatar">MK</div>
-            <div>
-              <strong>Mira Kusuma</strong>
-              <span>Content Strategist, Bandung</span>
+            <div class="mockup-card after">
+              <div class="mockup-header">
+                <span class="dot red"></span><span class="dot yellow"></span
+                ><span class="dot green"></span
+                ><span class="mockup-title">Sesudah ✓</span>
+              </div>
+              <div class="mockup-body">
+                <p>
+                  Saya ingin memberitahu Bapak bahwa
+                  <mark class="good"><em>meeting</em></mark> kita telah
+                  dijadwalkan ulang. Mohon hadir tepat waktu.
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+      <div class="hero-scroll-hint">
+        <div class="mouse-icon"><div class="mouse-wheel"></div></div>
+        <span>Scroll</span>
+      </div>
+    </section>
 
-  <!-- PRICING -->
-  <section class="pricing" id="harga">
-    <div class="container">
-      <div class="section-label animate-up">Harga</div>
-      <h2 class="section-title animate-up">Mulai Gratis, Tingkatkan<br><em>Sesuai Kebutuhanmu</em></h2>
-      <div class="pricing-grid">
-        <div class="pricing-card animate-up delay-1">
-          <div class="pricing-name">Gratis</div>
-          <div class="pricing-price">Rp 0<span>/bln</span></div>
-          <ul class="pricing-list">
-            <li class="yes">3x perbaikan per hari</li>
-            <li class="yes">Ekspor PDF</li>
-            <li class="yes">Review perubahan</li>
-            <li class="no">Unggah dokumen</li>
-            <li class="no">Riwayat dokumen</li>
-            <li class="no">Multi pengguna</li>
+    <!-- STATS -->
+    <section class="stats">
+      <div class="container stats-grid">
+        <div class="stat-item animate-up">
+          <span class="stat-number" id="stat1Num" data-target="10000">0</span
+          ><span class="stat-suffix" id="stat1Suf">+</span
+          ><span class="stat-label" id="stat1Lab">Pengguna Aktif</span>
+        </div>
+        <div class="stat-item animate-up delay-1">
+          <span class="stat-number" id="stat2Num" data-target="500000">0</span
+          ><span class="stat-suffix" id="stat2Suf">+</span
+          ><span class="stat-label" id="stat2Lab">Dokumen Diperbaiki</span>
+        </div>
+        <div class="stat-item animate-up delay-2">
+          <span class="stat-number" id="stat3Num" data-target="49">0</span
+          ><span class="stat-suffix" id="stat3Suf">/5</span
+          ><span class="stat-label" id="stat3Lab">Rating Kepuasan</span>
+        </div>
+        <div class="stat-item animate-up delay-3">
+          <span class="stat-number" id="stat4Num" data-target="3">0</span
+          ><span class="stat-suffix" id="stat4Suf"> dtk</span
+          ><span class="stat-label" id="stat4Lab">Rata-rata Proses</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAIN POINT -->
+    <section class="pain" id="masalah">
+      <div class="container">
+        <div class="section-label animate-up">Masalah</div>
+        <h2 class="section-title animate-up" id="painTitle">
+          Kesalahan Kecil dalam Bahasa Bisa<br />Merusak
+          <em>Kesan Besar</em> yang Ingin Kamu Bangun
+        </h2>
+        <div class="pain-grid">
+          <div class="pain-card animate-up delay-1" data-tilt>
+            <div class="card-glow"></div>
+            <div class="pain-icon">🔴</div>
+            <h3 id="pain1Title">Kata Tidak Baku</h3>
+            <p id="pain1Desc">
+              Kamu nulis "nggak", "udah", "gak" — tanpa sadar dokumen resmimu
+              terasa seperti chat WhatsApp.
+            </p>
+          </div>
+          <div class="pain-card animate-up delay-2" data-tilt>
+            <div class="card-glow"></div>
+            <div class="pain-icon">🔴</div>
+            <h3 id="pain2Title">Kalimat Bertele-tele</h3>
+            <p id="pain2Desc">
+              Satu ide yang bisa disampaikan dalam 10 kata, malah ditulis dalam
+              40 kata. Pembaca jadi lelah sebelum sampai ke inti.
+            </p>
+          </div>
+          <div class="pain-card animate-up delay-3" data-tilt>
+            <div class="card-glow"></div>
+            <div class="pain-icon">🔴</div>
+            <h3 id="pain3Title">Istilah Asing Salah Tulis</h3>
+            <p id="pain3Desc">
+              "meeting" ditulis tanpa cetak miring. "deadline" tidak mengikuti
+              kaidah. Detail kecil yang sering membuat dokumen terlihat tidak
+              serius.
+            </p>
+          </div>
+        </div>
+        <div class="pain-quote animate-up">
+          <blockquote id="painQuote">
+            "Bayangkan proposal bisnis yang sudah kamu susun berjam-jam ditolak
+            hanya karena bahasanya tidak baku. Jangan biarkan itu terjadi."
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <!-- FITUR -->
+    <section class="features" id="fitur">
+      <div class="container">
+        <div class="section-label animate-up">Fitur Unggulan</div>
+        <h2 class="section-title animate-up" id="featTitle">
+          Semua yang Kamu Butuhkan untuk<br />Tulisan yang Lebih
+          <em>Profesional</em>
+        </h2>
+        <div class="features-grid" id="featuresGrid">
+          <div class="feature-card animate-up delay-1" data-tilt>
+            <div class="feature-icon-wrap"><span>✏️</span></div>
+            <h3>Koreksi Kata Tidak Baku</h3>
+            <p>
+              Otomatis mendeteksi dan mengganti kata gaul atau tidak baku sesuai
+              kaidah KBBI terbaru.
+            </p>
+            <div class="feature-line"></div>
+          </div>
+          <div class="feature-card animate-up delay-2" data-tilt>
+            <div class="feature-icon-wrap"><span>🗑️</span></div>
+            <h3>Hapus Kalimat Boros</h3>
+            <p>
+              Memangkas kalimat bertele-tele tanpa mengubah makna aslinya. Lebih
+              padat, lebih kuat.
+            </p>
+            <div class="feature-line"></div>
+          </div>
+          <div class="feature-card animate-up delay-3" data-tilt>
+            <div class="feature-icon-wrap"><span>🔤</span></div>
+            <h3>Cetak Miring Istilah Asing</h3>
+            <p>
+              Setiap kata asing otomatis dicetak miring sesuai kaidah penulisan
+              KBBI dan EYD.
+            </p>
+            <div class="feature-line"></div>
+          </div>
+          <div class="feature-card animate-up delay-1" data-tilt>
+            <div class="feature-icon-wrap"><span>👁️</span></div>
+            <h3>Review Perubahan</h3>
+            <p>
+              Kamu bisa menerima atau menolak setiap saran perubahan satu per
+              satu. Kontrol penuh.
+            </p>
+            <div class="feature-line"></div>
+          </div>
+          <div class="feature-card animate-up delay-2" data-tilt>
+            <div class="feature-icon-wrap"><span>📄</span></div>
+            <h3>Ekspor PDF Langsung</h3>
+            <p>
+              Unduh hasil akhir dalam format PDF yang rapi, formal, dan siap
+              digunakan kapan saja.
+            </p>
+            <div class="feature-line"></div>
+          </div>
+          <div class="feature-card animate-up delay-3" data-tilt>
+            <div class="feature-icon-wrap"><span>⚡</span></div>
+            <h3>Proses dalam 3 Detik</h3>
+            <p>
+              Tidak perlu menunggu lama. Teknologi AI terkini memastikan
+              hasilnya instan dan akurat.
+            </p>
+            <div class="feature-line"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CARA KERJA -->
+    <section class="how-it-works" id="cara-kerja">
+      <div class="container">
+        <div class="section-label animate-up">Cara Kerja</div>
+        <h2 class="section-title animate-up">
+          Semudah Copy–Paste.<br /><em>Sesimpel 3 Langkah.</em>
+        </h2>
+        <div class="steps-grid">
+          <div class="step-card animate-up delay-1">
+            <div class="step-number">01</div>
+            <div class="step-icon">📋</div>
+            <h3 id="step1Title">Tempel Teks</h3>
+            <p id="step1Desc">
+              Salin dan tempel teks kamu langsung ke kolom yang tersedia, atau
+              unggah dokumen Word/PDF milikmu.
+            </p>
+          </div>
+          <div class="step-connector animate-up delay-2">
+            <div class="connector-line"></div>
+            <div class="connector-arrow">→</div>
+          </div>
+          <div class="step-card animate-up delay-2">
+            <div class="step-number">02</div>
+            <div class="step-icon">🔍</div>
+            <h3 id="step2Title">Pilih Perubahan</h3>
+            <p id="step2Desc">
+              KalimatKu menampilkan semua saran perbaikan. Kamu bebas menerima
+              atau menolak setiap perubahan.
+            </p>
+          </div>
+          <div class="step-connector animate-up delay-3">
+            <div class="connector-line"></div>
+            <div class="connector-arrow">→</div>
+          </div>
+          <div class="step-card animate-up delay-3">
+            <div class="step-number">03</div>
+            <div class="step-icon">📥</div>
+            <h3 id="step3Title">Unduh Hasilnya</h3>
+            <p id="step3Desc">
+              Klik unduh dan dapatkan dokumen final dalam format PDF yang rapi,
+              formal, dan siap digunakan.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- USE CASE -->
+    <section class="usecase" id="usecase">
+      <div class="container">
+        <div class="section-label animate-up">Cocok Untuk</div>
+        <h2 class="section-title animate-up">
+          KalimatKu untuk Siapa Saja yang<br />Butuh Tulisan
+          <em>Profesional</em>
+        </h2>
+        <div class="usecase-grid">
+          <div class="usecase-card animate-up delay-1">
+            <span class="usecase-emoji">🎓</span>
+            <h3>Mahasiswa</h3>
+            <p>Skripsi, laporan praktikum, proposal penelitian</p>
+          </div>
+          <div class="usecase-card animate-up delay-2">
+            <span class="usecase-emoji">💼</span>
+            <h3>Profesional Muda</h3>
+            <p>Email kerja, laporan bulanan, notulen rapat</p>
+          </div>
+          <div class="usecase-card animate-up delay-3">
+            <span class="usecase-emoji">📋</span>
+            <h3>HRD & Rekrutmen</h3>
+            <p>Surat penawaran kerja, kontrak karyawan</p>
+          </div>
+          <div class="usecase-card animate-up delay-1">
+            <span class="usecase-emoji">🤝</span>
+            <h3>Pebisnis</h3>
+            <p>Proposal bisnis, surat perjanjian, penawaran klien</p>
+          </div>
+          <div class="usecase-card animate-up delay-2">
+            <span class="usecase-emoji">📝</span>
+            <h3>Fresh Graduate</h3>
+            <p>Surat lamaran kerja, CV, portofolio tertulis</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONI -->
+    <section class="testimonials" id="testimoni">
+      <div class="container">
+        <div class="section-label animate-up">Testimoni</div>
+        <h2 class="section-title animate-up">
+          Dipercaya Ribuan Pengguna<br />di <em>Seluruh Indonesia</em>
+        </h2>
+        <div class="testimonials-grid" id="testiGrid">
+          <div class="testi-card animate-up delay-1" data-tilt>
+            <div class="testi-stars">★★★★★</div>
+            <p class="testi-quote">
+              "Saya pakai KalimatKu buat revisi proposal skripsi saya. Dosen
+              langsung bilang bahasanya jauh lebih baku. Sangat membantu!"
+            </p>
+            <div class="testi-author">
+              <div class="testi-avatar">RA</div>
+              <div>
+                <strong>Rania Aulia</strong
+                ><span>Mahasiswa S1, Universitas Padjadjaran</span>
+              </div>
+            </div>
+          </div>
+          <div class="testi-card animate-up delay-2" data-tilt>
+            <div class="testi-stars">★★★★★</div>
+            <p class="testi-quote">
+              "Sebagai HRD, saya sering buat surat kontrak dan penawaran.
+              KalimatKu bikin prosesnya 2x lebih cepat dan hasilnya lebih
+              profesional."
+            </p>
+            <div class="testi-author">
+              <div class="testi-avatar">BS</div>
+              <div>
+                <strong>Budi Santoso</strong><span>HRD Manager, Jakarta</span>
+              </div>
+            </div>
+          </div>
+          <div class="testi-card animate-up delay-3" data-tilt>
+            <div class="testi-stars">★★★★★</div>
+            <p class="testi-quote">
+              "Awalnya skeptis, tapi setelah coba langsung ketagihan. Fitur
+              review perubahan-nya keren banget, saya tetap punya kontrol
+              penuh."
+            </p>
+            <div class="testi-author">
+              <div class="testi-avatar">MK</div>
+              <div>
+                <strong>Mira Kusuma</strong
+                ><span>Content Strategist, Bandung</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRICING -->
+    <section class="pricing" id="harga">
+      <div class="container">
+        <div class="section-label animate-up">Harga</div>
+        <h2 class="section-title animate-up">
+          Mulai Gratis, Tingkatkan<br /><em>Sesuai Kebutuhanmu</em>
+        </h2>
+        <div class="pricing-grid" id="pricingGrid">
+          <div class="pricing-card animate-up delay-1">
+            <div class="pricing-name" id="price1Name">Gratis</div>
+            <div class="pricing-price">
+              <span id="price1Price">Rp 0</span><span>/bln</span>
+            </div>
+            <ul class="pricing-list" id="price1List">
+              <li class="yes">3x perbaikan per hari</li>
+              <li class="yes">Ekspor PDF</li>
+              <li class="yes">Review perubahan</li>
+              <li class="no">Unggah dokumen</li>
+              <li class="no">Riwayat dokumen</li>
+              <li class="no">Multi pengguna</li>
+            </ul>
+            <a href="#" class="btn-outline">Mulai Gratis</a>
+          </div>
+          <div class="pricing-card featured animate-up delay-2">
+            <div class="pricing-glow"></div>
+            <div class="pricing-badge">✦ Paling Populer</div>
+            <div class="pricing-name" id="price2Name">Pro</div>
+            <div class="pricing-price">
+              <span id="price2Price">Rp 49.000</span><span>/bln</span>
+            </div>
+            <ul class="pricing-list" id="price2List">
+              <li class="yes">Perbaikan tanpa batas</li>
+              <li class="yes">Ekspor PDF</li>
+              <li class="yes">Review perubahan</li>
+              <li class="yes">Unggah dokumen</li>
+              <li class="yes">Riwayat dokumen</li>
+              <li class="no">Multi pengguna</li>
+            </ul>
+            <a href="#" class="btn-primary">Pilih Paket Pro</a>
+          </div>
+          <div class="pricing-card animate-up delay-3">
+            <div class="pricing-name" id="price3Name">Tim</div>
+            <div class="pricing-price">
+              <span id="price3Price">Rp 149.000</span><span>/bln</span>
+            </div>
+            <ul class="pricing-list" id="price3List">
+              <li class="yes">Perbaikan tanpa batas</li>
+              <li class="yes">Ekspor PDF</li>
+              <li class="yes">Review perubahan</li>
+              <li class="yes">Unggah dokumen</li>
+              <li class="yes">Riwayat dokumen</li>
+              <li class="yes">Multi pengguna (5 akun)</li>
+            </ul>
+            <a href="#" class="btn-outline">Pilih Paket Tim</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA FINAL -->
+    <section class="cta-final">
+      <div class="cta-orb cta-orb-1"></div>
+      <div class="cta-orb cta-orb-2"></div>
+      <div class="container">
+        <div class="cta-box animate-up">
+          <h2 id="ctaTitle">
+            Tidak Perlu Ahli Bahasa.<br />Tidak Perlu Waktu Lama.<br /><em
+              >Cukup KalimatKu.</em
+            >
+          </h2>
+          <p id="ctaSubtitle">
+            Bergabung bersama 10.000+ pengguna yang sudah menulis lebih
+            profesional hari ini.
+          </p>
+          <a href="#" class="btn-primary btn-large" id="ctaBtn"
+            >Coba KalimatKu Gratis →</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq" id="faq">
+      <div class="container">
+        <div class="section-label animate-up">FAQ</div>
+        <h2 class="section-title animate-up">
+          Pertanyaan yang<br /><em>Sering Ditanyakan</em>
+        </h2>
+        <div class="faq-list" id="faqList">
+          <div class="faq-item animate-up delay-1">
+            <button class="faq-question">
+              Apakah KalimatKu gratis? <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>
+                Ya! Kamu bisa menggunakan KalimatKu secara gratis hingga 3 kali
+                perbaikan per hari.
+              </p>
+            </div>
+          </div>
+          <div class="faq-item animate-up delay-2">
+            <button class="faq-question">
+              Apakah data teks saya aman? <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>
+                Sangat aman. Teks yang kamu masukkan tidak disimpan di server
+                kami setelah proses selesai.
+              </p>
+            </div>
+          </div>
+          <div class="faq-item animate-up delay-3">
+            <button class="faq-question">
+              Format dokumen apa saja yang didukung?
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>
+                KalimatKu mendukung input teks langsung, serta unggah dokumen
+                .docx dan .pdf (paket Pro ke atas).
+              </p>
+            </div>
+          </div>
+          <div class="faq-item animate-up delay-1">
+            <button class="faq-question">
+              Apakah KalimatKu mengubah makna tulisan saya?
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>
+                Tidak. KalimatKu hanya menyempurnakan struktur dan diksi, bukan
+                mengubah isi atau makna.
+              </p>
+            </div>
+          </div>
+          <div class="faq-item animate-up delay-2">
+            <button class="faq-question">
+              Apakah cocok untuk skripsi atau karya ilmiah?
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>
+                Sangat cocok! KalimatKu mengikuti kaidah KBBI dan gaya penulisan
+                formal untuk dokumen akademik.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-glow"></div>
+      <div class="container footer-grid">
+        <div class="footer-brand">
+          <a href="#" class="nav-logo">Kalimat<span>Ku</span></a>
+          <p id="footerTagline">
+            Menyempurnakan tulisanmu,<br />satu kalimat dalam satu waktu.
+          </p>
+          <div class="footer-socials">
+            <a href="#">Instagram</a><a href="#">LinkedIn</a
+            ><a href="#">TikTok</a><a href="#">Twitter/X</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Produk</h4>
+          <ul>
+            <li><a href="#fitur">Fitur</a></li>
+            <li><a href="#cara-kerja">Cara Kerja</a></li>
+            <li><a href="#harga">Harga</a></li>
+            <li><a href="#">Changelog</a></li>
           </ul>
-          <a href="#" class="btn-outline">Mulai Gratis</a>
         </div>
-        <div class="pricing-card featured animate-up delay-2">
-          <div class="pricing-glow"></div>
-          <div class="pricing-badge">✦ Paling Populer</div>
-          <div class="pricing-name">Pro</div>
-          <div class="pricing-price">Rp 49.000<span>/bln</span></div>
-          <ul class="pricing-list">
-            <li class="yes">Perbaikan tanpa batas</li>
-            <li class="yes">Ekspor PDF</li>
-            <li class="yes">Review perubahan</li>
-            <li class="yes">Unggah dokumen</li>
-            <li class="yes">Riwayat dokumen</li>
-            <li class="no">Multi pengguna</li>
+        <div class="footer-col">
+          <h4>Perusahaan</h4>
+          <ul>
+            <li><a href="#">Tentang Kami</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Karir</a></li>
+            <li><a href="#">Press Kit</a></li>
           </ul>
-          <a href="#" class="btn-primary">Pilih Paket Pro</a>
         </div>
-        <div class="pricing-card animate-up delay-3">
-          <div class="pricing-name">Tim</div>
-          <div class="pricing-price">Rp 149.000<span>/bln</span></div>
-          <ul class="pricing-list">
-            <li class="yes">Perbaikan tanpa batas</li>
-            <li class="yes">Ekspor PDF</li>
-            <li class="yes">Review perubahan</li>
-            <li class="yes">Unggah dokumen</li>
-            <li class="yes">Riwayat dokumen</li>
-            <li class="yes">Multi pengguna (5 akun)</li>
+        <div class="footer-col">
+          <h4>Bantuan</h4>
+          <ul>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#">Hubungi Kami</a></li>
+            <li><a href="#">Kebijakan Privasi</a></li>
+            <li><a href="#">Syarat & Ketentuan</a></li>
           </ul>
-          <a href="#" class="btn-outline">Pilih Paket Tim</a>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- CTA FINAL -->
-  <section class="cta-final">
-    <div class="cta-orb cta-orb-1"></div>
-    <div class="cta-orb cta-orb-2"></div>
-    <div class="container">
-      <div class="cta-box animate-up">
-        <h2>Tidak Perlu Ahli Bahasa.<br>Tidak Perlu Waktu Lama.<br><em>Cukup KalimatKu.</em></h2>
-        <p>Bergabung bersama 10.000+ pengguna yang sudah menulis lebih profesional hari ini.</p>
-        <a href="#" class="btn-primary btn-large">Coba KalimatKu Gratis →</a>
+      <div class="footer-bottom">
+        <p id="footerCopy">© 2026 KalimatKu. Hak cipta dilindungi.</p>
       </div>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section class="faq" id="faq">
-    <div class="container">
-      <div class="section-label animate-up">FAQ</div>
-      <h2 class="section-title animate-up">Pertanyaan yang<br><em>Sering Ditanyakan</em></h2>
-      <div class="faq-list">
-        <div class="faq-item animate-up delay-1">
-          <button class="faq-question">Apakah KalimatKu gratis? <span class="faq-icon">+</span></button>
-          <div class="faq-answer"><p>Ya! Kamu bisa menggunakan KalimatKu secara gratis hingga 3 kali perbaikan per hari. Untuk kebutuhan lebih, tersedia paket Pro dan Tim dengan fitur lengkap.</p></div>
-        </div>
-        <div class="faq-item animate-up delay-2">
-          <button class="faq-question">Apakah data teks saya aman? <span class="faq-icon">+</span></button>
-          <div class="faq-answer"><p>Sangat aman. Teks yang kamu masukkan tidak disimpan di server kami setelah proses selesai. Privasi kamu adalah prioritas kami.</p></div>
-        </div>
-        <div class="faq-item animate-up delay-3">
-          <button class="faq-question">Format dokumen apa saja yang didukung? <span class="faq-icon">+</span></button>
-          <div class="faq-answer"><p>Saat ini KalimatKu mendukung input teks langsung, serta unggah dokumen dalam format .docx dan .pdf (tersedia di paket Pro ke atas).</p></div>
-        </div>
-        <div class="faq-item animate-up delay-1">
-          <button class="faq-question">Apakah KalimatKu mengubah makna tulisan saya? <span class="faq-icon">+</span></button>
-          <div class="faq-answer"><p>Tidak. KalimatKu hanya menyempurnakan struktur dan diksi, bukan mengubah isi atau makna. Dan kamu tetap punya kendali penuh lewat fitur review perubahan.</p></div>
-        </div>
-        <div class="faq-item animate-up delay-2">
-          <button class="faq-question">Apakah cocok untuk skripsi atau karya ilmiah? <span class="faq-icon">+</span></button>
-          <div class="faq-answer"><p>Sangat cocok! KalimatKu mengikuti kaidah KBBI dan gaya penulisan formal yang sesuai untuk dokumen akademik maupun profesional.</p></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-glow"></div>
-    <div class="container footer-grid">
-      <div class="footer-brand">
-        <a href="#" class="nav-logo">Kalimat<span>Ku</span></a>
-        <p>Menyempurnakan tulisanmu,<br>satu kalimat dalam satu waktu.</p>
-        <div class="footer-socials">
-          <a href="#">Instagram</a>
-          <a href="#">LinkedIn</a>
-          <a href="#">TikTok</a>
-          <a href="#">Twitter/X</a>
-        </div>
-      </div>
-      <div class="footer-col">
-        <h4>Produk</h4>
-        <ul>
-          <li><a href="#fitur">Fitur</a></li>
-          <li><a href="#cara-kerja">Cara Kerja</a></li>
-          <li><a href="#harga">Harga</a></li>
-          <li><a href="#">Changelog</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Perusahaan</h4>
-        <ul>
-          <li><a href="#">Tentang Kami</a></li>
-          <li><a href="#">Blog</a></li>
-          <li><a href="#">Karir</a></li>
-          <li><a href="#">Press Kit</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Bantuan</h4>
-        <ul>
-          <li><a href="#faq">FAQ</a></li>
-          <li><a href="#">Hubungi Kami</a></li>
-          <li><a href="#">Kebijakan Privasi</a></li>
-          <li><a href="#">Syarat & Ketentuan</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>© 2026 KalimatKu. Hak cipta dilindungi.</p>
-    </div>
-  </footer>
-
-  <script src="script.js"></script>
-</body>
+    </footer>
+    <a href="admin.html" class="admin-fab">⚙️ Admin Panel</a>
+    <script src="script.js"></script>
+  </body>
 </html>

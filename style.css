@@ -1970,3 +1970,32 @@ footer {
         justify-content: center;
     }
 }
+
+/* ── ADMIN FLOATING BUTTON (muncul di landing page) ── */
+.admin-fab {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 999;
+  background: var(--navy);
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.25rem;
+  border-radius: 50px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s;
+  text-decoration: none;
+}
+
+.admin-fab:hover {
+  background: var(--blue);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}

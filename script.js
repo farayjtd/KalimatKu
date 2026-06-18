@@ -332,3 +332,117 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         }
     });
 });
+
+/* ══════════════════════════════════════
+   LOAD CONTENT FROM ADMIN (localStorage)
+══════════════════════════════════════ */
+function loadContent() {
+  const data = JSON.parse(localStorage.getItem('kalimatku_content') || '{}');
+
+  const set = (id, val) => {
+    const el = document.getElementById(id);
+    if (el && val !== undefined) el.textContent = val;
+  };
+  const setHtml = (id, val) => {
+    const el = document.getElementById(id);
+    if (el && val !== undefined) el.innerHTML = val;
+  };
+
+  // Hero
+  set('heroBadge',    data.heroBadge);
+  set('heroSub',      data.heroSub);
+  set('heroCta1Text', data.heroCta1);
+  set('heroCta2Text', data.heroCta2);
+  set('heroNote',     data.heroNote);
+
+  if (data.heroTitle) {
+    const el = document.getElementById('heroTitle');
+    if (el) {
+      el.innerHTML = data.heroTitle + '<br><em class="glitch" id="heroGlitch" data-text="' + (data.heroGlitch || 'Kurang Profesional?') + '">' + (data.heroGlitch || 'Kurang Profesional?') + '</em>';
+    }
+  }
+
+  // Stats
+  const stats = ['stat1','stat2','stat3','stat4'];
+  stats.forEach(s => {
+    set(s + 'Lab', data[s + 'Lab']);
+    set(s + 'Suf', data[s + 'Suf']);
+    if (data[s + 'Num'] !== undefined) {
+      const el = document.getElementById(s + 'Num');
+      if (el) el.dataset.target = data[s + 'Num'];
+    }
+  });
+
+  // Pain
+  set('painTitle',  data.painTitle);
+  set('pain1Title', data.pain1Title);
+  set('pain1Desc',  data.pain1Desc);
+  set('pain2Title', data.pain2Title);
+  set('pain2Desc',  data.pain2Desc);
+  set('pain3Title', data.pain3Title);
+  set('pain3Desc',  data.pain3Desc);
+  set('painQuote',  data.painQuote);
+
+  // Features
+  set('featTitle', data.featTitle);
+  if (data.features && Array.isArray(data.features)) {
+    const grid = document.getElementById('featuresGrid');
+    if (grid) {
+      grid.innerHTML = data.features.map((f, i) => `
+        <div class="feature-card animate-up delay-${(i%3)+1}" data-tilt>
+          <div class="feature-icon-wrap"><span>${f.icon}</span></div>
+          <h3>${f.title}</h3>
+          <p>${f.desc}</p>
+          <div class="feature-line"></div>
+        </div>`).join('');
+    }
+  }
+
+  // Steps
+  set('step1Title', data.step1Title);
+  set('step1Desc',  data.step1Desc);
+  set('step2Title', data.step2Title);
+  set('step2Desc',  data.step2Desc);
+  set('step3Title', data.step3Title);
+  set('step3Desc',  data.step3Desc);
+
+  // Testimoni
+  if (data.testimonials && Array.isArray(data.testimonials)) {
+    const grid = document.getElementById('testiGrid');
+    if (grid) {
+      grid.innerHTML = data.testimonials.map((t, i) => `
+        <div class="testi-card animate-up delay-${i+1}" data-tilt>
+          <div class="testi-stars">${'★'.repeat(t.stars || 5)}</div>
+          <p class="testi-quote">"${t.quote}"</p>
+          <div class="testi-author">
+            <div class="testi-avatar">${t.initials}</div>
+            <div><strong>${t.name}</strong><span>${t.role}</span></div>
+          </div>
+        </div>`).join('');
+    }
+  }
+
+  // Pricing
+  set('price1Name',  data.price1Name);
+  set('price1Price', data.price1Price);
+  set('price2Name',  data.price2Name);
+  set('price2Price', data.price2Price);
+  set('price3Name',  data.price3Name);
+  set('price3Price', data.price3Price);
+
+  // CTA
+  set('ctaTitle',    data.ctaTitle);
+  set('ctaSubtitle', data.ctaSubtitle);
+  set('ctaBtn',      data.ctaBtn);
+
+  // Footer
+  set('footerTagline', data.footerTagline);
+  set('footerCopy',    data.footerCopy);
+
+  // Warna
+  if (data.colorBlue)  document.documentElement.style.setProperty('--blue',  data.colorBlue);
+  if (data.colorGold)  document.documentElement.style.setProperty('--gold',  data.colorGold);
+  if (data.colorNavy)  document.documentElement.style.setProperty('--navy',  data.colorNavy);
+}
+
+loadContent();
